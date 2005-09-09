@@ -104,6 +104,8 @@ MATERIALS =
   ["ivory", "leather", "plastic", "gold", "crystal", "mithril",
   "ruby", "ruby", "steel", "iron", "diamond", "wool", "hickory",
   "ashwood", "balsa", "oak", "bamboo"]
+ARMORS =
+  ["plate", "mail", "suit"]
 
 
 #######################################################################
@@ -124,7 +126,7 @@ class Player
   attr_accessor :exp, :gold, :chapter, :quests_completed
   attr_accessor :location
 
-  attr_accessor :current_progress, :current_activity, :current_enemy
+  attr_accessor :current_progress, :current_enemy
 
   def level
     return (Math.sqrt(exp)/Math.sqrt(1234)).floor + 1
@@ -174,8 +176,10 @@ class Player
 	kit[k] = 1
       end
     end
-    sorted_knap = kit.sort {|a,b| a[1]<=>b[1]}.reverse.collect { |i| "#{i[1]} x #{i[0]}" }
-    
+    sorted_knap = kit.sort {|a,b|
+      a[1]<=>b[1]}.reverse.collect { |i|
+      "#{i[1]} x #{i[0]}" 
+    }
     puts "Items in knapsack:\n\t" + sorted_knap.join("\n\t")
   end
 
@@ -185,7 +189,7 @@ class Player
       WEAPONS[rand(WEAPONS.length)] + " " +sprintf("%+1d",(level/3-2+rand(3)))
     self.armor =
       MATERIALS[rand(MATERIALS.length)] + " " +
-      'plate' + " " +sprintf("%+1d",(level/3-2+rand(4)))
+      ARMORS[rand(ARMORS.length)] + " " +sprintf("%+1d",(level/3-2+rand(4)))
   end
 
   def addxp(amt)
@@ -193,41 +197,43 @@ class Player
 	
     self.exp = self.exp + amt
     if self.level > oldlevel
-      puts "You gained one level!"
-      # Increase one stat
-      case rand(5)
-      when 0 then 
-	self.strenght = self.strength + 1
-	puts "Your muscles tremble with new power."
-      when 1 then
-	self.dexterity = self.dexterity + 1
-	puts "Your joints are nimbler."
-      when 2 then
-	self.guts = self.guts + 1
-	puts "You feel you can survive anything now." 
-      when 3 then
-	self.intelligence = self.intelligence + 1
-	puts "Your mind is dizzying with new possibilities." 
-      when 4 then
-	self.charm = self.charm + 1
-	puts "You feel more confident and your hair looks better."
-      else
-	die "Well, that was weird. Odd stat?"
-      end
-
-      if(self.spells.keys.length >= SPELLS.length or rand(100) < 50)
-	# Increase level of an existing spell
-	oldspell = self.spells.keys[rand(self.spells.keys.length)]
-	self.spells[oldspell] = self.spells[oldspell] + 1
-	puts "Gained a new skill level in spell #{oldspell}."
-      else
-	# A whole new spell
-	newspell = SPELLS[rand(SPELLS.length)]
-	while self.spells.exists(newspell)
-	  newspell = SPELLS[rand(SPELLS.length)]
+      for l in 1..(self.level - oldlevel)
+	puts "You gained a level!"
+	# Increase one stat
+	case rand(5)
+	when 0 then 
+	  self.strenght = self.strength + 1
+	  puts "Your muscles tremble with new power."
+	when 1 then
+	  self.dexterity = self.dexterity + 1
+	  puts "Your joints are nimbler."
+	when 2 then
+	  self.guts = self.guts + 1
+	  puts "You feel you can survive anything now." 
+	when 3 then
+	  self.intelligence = self.intelligence + 1
+	  puts "Your mind is dizzying with new possibilities." 
+	when 4 then
+	  self.charm = self.charm + 1
+	  puts "You feel more confident and your hair looks better."
+	else
+	  die "Well, that was weird. Odd stat?"
 	end
-	self.spells[newspell] = 1
-	puts "Learned a new spell #{newspell}."
+
+	if(self.spells.keys.length >= SPELLS.length or rand(100) < 50)
+	  # Increase level of an existing spell
+	  oldspell = self.spells.keys[rand(self.spells.keys.length)]
+	  self.spells[oldspell] = self.spells[oldspell] + 1
+	  puts "Gained a new skill level in spell #{oldspell}."
+	else
+	  # A whole new spell
+	  newspell = SPELLS[rand(SPELLS.length)]
+	  while self.spells.has_key?(newspell)
+	    newspell = SPELLS[rand(SPELLS.length)]
+	  end
+	  self.spells[newspell] = 1
+	  puts "Learned a new spell #{newspell}."
+	end
       end
     end
   end
@@ -345,8 +351,9 @@ def get_option(list,prompt,errormsg)
 end
 
 def titlescreen
+  system("figlet", "-f", "gothic", "-c", "Miller's Quest!")
   puts "Miller's Quest!"
-  puts "WWWWolf 2005"
+  puts "(c) Urpo Lankinen (aka Weyfour WWWWolf) Sept-2005"
 end
 
 def titlebar(title,letter)
@@ -440,7 +447,7 @@ begin
       $player.re_equip
       cost = (rand($player.gold)/3).to_i
       $player.gold = $player.gold - cost
-      puts("got a #{$player.weapon} and a #{$player.armor} for #{cost}!")
+      puts("Got a #{$player.weapon} and a #{$player.armor} for #{cost} gp!")
       case rand(3)
       when 0 then progress("Heading to the nearby bushes",10)
       when 1 then progress("The bloody fields do call you!",20)
@@ -461,7 +468,8 @@ begin
 	puts "Got #{drop.exp} exp. #{$player.to_next_level} to next level."
 	$player.addxp(drop.exp)
 	$player.possessions.push(drop)
-	puts "Currently carrying #{$player.loot_weight}/#{$player.carrying_capacity}"
+	puts "Currently carrying " +
+	  "#{$player.loot_weight}/#{$player.carrying_capacity}"
       end
       progress("Dragging monster carcasses to the town",20)
       $player.location = 'town'
