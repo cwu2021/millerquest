@@ -127,7 +127,7 @@ a scrap metal golem: !ruby/object:Monster
   corpse: a collection of forgotten faucets
   exp: 100
   weight: 100
-a zombie-summining shaman: !ruby/object:Monster 
+a zombie-summoning shaman: !ruby/object:Monster 
   name: a zombie-summoning shaman
   corpse: a painted rattler and a whole bunch of twice-killed pieces
   exp: 180
@@ -147,10 +147,50 @@ ARMORS =
   ["plate", "mail", "suit"]
 
 
+# Bad places courtesy of AutoREALM's generator (the Rager port)
+PLACES = [
+  "Mountain of Wailing Doom",
+  "Xos's Pass",
+  "Temple of Clamorous Chaos",
+  "Mox's Tunnel of Scented Blasphemy",
+  "Village of Gushing Alliances",
+  "Den of Blue Chaos",
+  "Lands of White Dread",
+  "Crypt of Murac's Beholders",
+  "Crater of Yellow Horror",
+  "The Keeper's Village",
+  "Hiding Place of Sidina's Creeps",
+  "The Beekeeper's Den",
+  "The Chamber of Porase's Beasts",
+  "The Troll's Disappointment",
+]
+ITEMS = [
+  "sack of gold", "newspaper", "legendary sword", "busted shield",
+  "bottle of mouthwash", "toothpick", "rotten boots", "pencil",
+  "jar of salsa sauce", "telescope", "mysterious crystal"
+]
+
 #######################################################################
+
+class Array
+  def random_item
+    return self[rand(self.length)]
+  end
+end
+
+class Hash
+  def random_item
+    return self[random_key]
+  end
+  def random_key
+    return self.keys[rand(self.keys.length)]
+  end
+end
+
 
 class Player
   attr_accessor :name
+  attr_accessor :gender
   attr_accessor :race
 
   attr_accessor :profession
@@ -162,7 +202,8 @@ class Player
   attr_accessor :spells
   attr_accessor :possessions
 
-  attr_accessor :exp, :gold, :chapter, :quests_completed
+  attr_reader :exp
+  attr_accessor :gold, :chapter, :quests_completed
   attr_accessor :location
 
   attr_accessor :current_progress, :current_enemy
@@ -195,6 +236,8 @@ class Player
     print_line
     print_possessions
     print_line
+    print_quests
+    print_line
   end
   def print_stats
     print_line
@@ -221,20 +264,27 @@ class Player
     }
     puts "Items in knapsack:\n\t" + sorted_knap.join("\n\t")
   end
+  def print_quests
+    puts "Current chapter: #{self.chapter}"
+    puts "Quests in this chapter:"
+    self.quests_completed.each do |q|
+      puts "\t#{q.description}"
+    end
+  end
 
   def re_equip
     self.weapon =
-      MATERIALS[rand(MATERIALS.length)] + " " +
-      WEAPONS[rand(WEAPONS.length)] + " " +sprintf("%+1d",(level/3-2+rand(3)))
+      MATERIALS.random_item + " " +
+      WEAPONS.random_item + " " +sprintf("%+1d",(level/3-2+rand(3)))
     self.armor =
-      MATERIALS[rand(MATERIALS.length)] + " " +
-      ARMORS[rand(ARMORS.length)] + " " +sprintf("%+1d",(level/3-2+rand(4)))
+      MATERIALS.random_item + " " +
+      ARMORS.random_item + " " +sprintf("%+1d",(level/3-2+rand(4)))
   end
 
   def addxp(amt)
     oldlevel = self.level
 	
-    self.exp = self.exp + amt
+    @exp = @exp + amt
     if self.level > oldlevel
       for l in 1..(self.level - oldlevel)
 	puts "You gained a level!"
@@ -261,14 +311,14 @@ class Player
 
 	if(self.spells.keys.length >= SPELLS.length or rand(100) < 50)
 	  # Increase level of an existing spell
-	  oldspell = self.spells.keys[rand(self.spells.keys.length)]
+	  oldspell = self.spells.random_key
 	  self.spells[oldspell] = self.spells[oldspell] + 1
 	  puts "Gained a new skill level in spell #{oldspell}."
 	else
 	  # A whole new spell
-	  newspell = SPELLS[rand(SPELLS.length)]
+	  newspell = SPELLS.random_item
 	  while self.spells.has_key?(newspell)
-	    newspell = SPELLS[rand(SPELLS.length)]
+	    newspell = SPELLS.random_item
 	  end
 	  self.spells[newspell] = 1
 	  puts "Learned a new spell #{newspell}."
@@ -276,8 +326,32 @@ class Player
       end
     end
   end
+
+  def munchkinify
+    if self.strength < 10 then self.strength = 10 end
+    if self.dexterity < 10 then self.dexterity = 10 end
+    if self.guts < 10 then self.guts = 10 end
+    if self.intelligence < 10 then self.intelligence = 10 end
+    if self.charm < 10 then self.charm = 10 end
+  end
+
 end
 
+class Quest
+  attr_reader :description
+  def initialize
+    item = ITEMS.random_item
+    place = PLACES.random_item
+    monster = $monsters.random_item.name
+    case rand(5)
+    when 0 then @description = "find a #{item} from #{place}"
+    when 1 then @description = "search the #{place} for #{item}"
+    when 2 then @description = "locate a #{item}"
+    when 3 then @description = "wipe out #{monster} in #{place}"
+    when 4 then @description = "destroy #{monster}"
+    end
+  end
+end
 
 #######################################################################
 
@@ -346,14 +420,16 @@ def new_game
     $player.charm = rand(16)+3
 
     $player.print_stats
-    print "A)ccept or R)eroll? "
+    print "A)ccept, R)eroll, M)unchkin? "
     response = gets.chomp
-    if response == 'a' or response == 'A'
-      ok = true
+    case response
+      when 'a', 'A' then ok = true
+      when 'r', 'R' then ok = false
+      when 'm', 'M' then $player.munchkinify; ok = true      
     end
   end
 
-  $player.spells = { SPELLS[rand(SPELLS.length)] => 1 }
+  $player.spells = { SPELLS.random_item => 1 }
 
   $player.possessions = []
 
@@ -390,9 +466,7 @@ def get_option(list,prompt,errormsg)
 end
 
 def titlescreen
-  system("figlet", "-f", "gothic", "-c", "Miller's Quest!")
-  puts "Miller's Quest!"
-  puts "(c) Urpo Lankinen (aka Weyfour WWWWolf) Sept-2005"
+  puts DATA.readlines
 end
 
 def titlebar(title,letter)
@@ -482,11 +556,30 @@ begin
 	puts "Got #{newgold} gp for that"
 	$player.gold = $player.gold + newgold
       end
+      # Get new equipment
       progress("Getting some new equipment while we're at it",20)
       $player.re_equip
       cost = (rand($player.gold)/3).to_i
       $player.gold = $player.gold - cost
       puts("Got a #{$player.weapon} and a #{$player.armor} for #{cost} gp!")
+      # A quest?
+      if $player.quests_completed.length <= 10 and rand(10) < 5
+	if $player.quests_completed.length > 0
+	  lastquest = $player.quests_completed.last
+	  puts "You have completed the quest to #{lastquest.description}!"
+	end
+	quest = Quest.new
+	$player.quests_completed.push(quest)
+	puts "You have a new quest: #{quest.description}!"
+      end
+      if $player.quests_completed.length > 10 and rand(10) < 2
+	$player.quests_completed = []
+	$player.chapter = $player.chapter + 1
+	puts "You have completed all quests in this chapter!"
+	titlebar("CHAPTER #{$player.chapter}",'*')	
+      end
+
+      # Head to the fields
       case rand(3)
       when 0 then progress("Heading to the nearby bushes",10)
       when 1 then progress("The bloody fields do call you!",20)
@@ -496,7 +589,7 @@ begin
     elsif $player.location == 'killingfields'
       while not $player.carrying_too_much?
 	if $player.current_enemy.nil?
-	  monster = $monsters.keys[rand($monsters.keys.length)]
+	  monster = $monsters.random_key
 	  $player.current_enemy = $monsters[monster].dup
 	else
 	  monster = $player.current_enemy.name
@@ -520,3 +613,27 @@ rescue Interrupt
   puts "Game interrupted."
   save_game($filename)
 end
+
+__END__
+                                                <>
+                  /\\,/\\,    ,, ,,              )      
+                 /| || ||   ' || ||                              logo made
+                 || || ||  \\ || ||  _-_  ,._-_    _-_,        with Figlet
+                 ||=|= ||  || || || || \\  ||     ||_.  
+                ~|| || ||  || || || ||/    ||      ~ || 
+                 |, \\,\\, \\ \\ \\ \\,/   \\,    ,-_-  
+                _-   __                               
+                   ,-||-,                       ,  /\ 
+                  ('|||  )                     ||  \/ 
+                 (( |||--)) \\ \\  _-_   _-_, =||= }{ 
+                 (( |||--)) || || || \\ ||_.   ||  \/ 
+                  ( / |  )  || || ||/    ~ ||  ||     
+                   -____-\\ \\/\\ \\,/  ,-_-   \\, <> 
+                                                          
+                                                          
+                           MILLER'S QUEST!
+                     (c) Urpo Lankinen sep-2005
+                    A Weyfour WWWWolf production
+                    Distributed under GNU GPL v2
+              Inspired by "Progress Quest" by Grumdrig
+
