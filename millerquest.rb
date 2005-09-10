@@ -52,49 +52,88 @@ SPELLS = [
 
 class Monster
   attr_accessor :name, :exp, :corpse, :weight
-  def initialize(name, exp, corpse, weight)
-    self.name = name; self.exp = exp;
-    self.corpse = corpse; self.weight = weight
-  end
 end
 
 # monster, xp, corpse, weight
-$monsters = {
-  "a goblin" =>
-  Monster.new("a goblin", 1,
-		 "newbieishly severed goblin head", 8),
-  "a formaldehyde elemental" =>
-  Monster.new("a formaldehyde elemental", 30,
-	      "embalming fluid component", 10),
-  "a lowland orc" =>
-  Monster.new("a lowland orc", 10,
-		 "assorted weapons", 20),
-  "a potato assassin" =>
-  Monster.new("a potato assassin", 30,
-		 "a set of kitchen knifes", 20),
-  "a coffee elemental" =>
-  Monster.new("a coffee elemental", 30,
-		 "an unwashed cup", 10),
-  "a white-hatted kangaroo" =>
-  Monster.new("a white-hatted kangaroo", 30,
-		 "a pouched sombrero", 30),
-  "an exploding cow" =>
-  Monster.new("an exploding cow", 40,
-	      "a ticking package", 25),
-  "a vampire without a speech impediment" =>
-  Monster.new("a vampire without a speech impediment", 120,
-	      "shortened vampire fangs", 5),
-  "a vampire without a noticeable accent" =>
-  Monster.new("a vampire withot a noticeable accent", 200,
-	      "a well-thumbed dictionary", 5),
-  "an enchanted Wartburg" =>
-  Monster.new("an enchanted Wartburg", 200,
-	      "a possessed gearbox", 200),
-  "a nasty forum troll" =>
-  Monster.new("a nasty forum troll", 300,
-	      "a broken reply button", 30),
+$monsters = YAML::load(<<MONSTERS)
+--- 
+an exploding cow: !ruby/object:Monster 
+  name: an exploding cow
+  corpse: a ticking package
+  exp: 40
+  weight: 25
+a coffee elemental: !ruby/object:Monster 
+  name: a coffee elemental
+  corpse: an unwashed cup
+  exp: 30
+  weight: 10
+a lowland orc: !ruby/object:Monster 
+  name: a lowland orc
+  corpse: assorted weapons
+  exp: 10
+  weight: 20
+a formaldehyde elemental: !ruby/object:Monster 
+  name: a formaldehyde elemental
+  corpse: embalming fluid component
+  exp: 30
+  weight: 10
+a nasty forum troll: !ruby/object:Monster 
+  name: a nasty forum troll
+  corpse: a broken reply button
+  exp: 300
+  weight: 30
+a potato assassin: !ruby/object:Monster 
+  name: a potato assassin
+  corpse: a set of kitchen knifes
+  exp: 30
+  weight: 20
+a goblin: !ruby/object:Monster 
+  name: a goblin
+  corpse: newbieishly severed goblin head
+  exp: 1
+  weight: 8
+a white-hatted kangaroo: !ruby/object:Monster 
+  name: a white-hatted kangaroo
+  corpse: a pouched sombrero
+  exp: 30
+  weight: 30
+a vampire without a speech impediment: !ruby/object:Monster 
+  name: a vampire without a speech impediment
+  corpse: shortened vampire fangs
+  exp: 120
+  weight: 5
+an enchanted Wartburg: !ruby/object:Monster 
+  name: an enchanted Wartburg
+  corpse: a possessed gearbox
+  exp: 200
+  weight: 200
+a vampire without a noticeable accent: !ruby/object:Monster 
+  name: a vampire withot a noticeable accent
+  corpse: a well-thumbed dictionary
+  exp: 200
+  weight: 5
+a group of smelly critters: !ruby/object:Monster 
+  name: a group of smelly critters
+  corpse: pungent hides
+  exp: 130
+  weight: 30
+a zombie: !ruby/object:Monster 
+  name: a zombie
+  corpse: twice-killed pieces
+  exp: 80
+  weight: 10
+a scrap metal golem: !ruby/object:Monster 
+  name: a scrap metal golem
+  corpse: a collection of forgotten faucets
+  exp: 100
+  weight: 100
+a zombie-summining shaman: !ruby/object:Monster 
+  name: a zombie-summoning shaman
+  corpse: a painted rattler and a whole bunch of twice-killed pieces
+  exp: 180
+  weight: 30
+MONSTERS
 
-}
 
 WEAPONS = 
   ["sword", "dagger", "spear", "mooring hook", "trident", "pencil",
