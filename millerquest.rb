@@ -202,7 +202,7 @@ class Player
 	# Increase one stat
 	case rand(5)
 	when 0 then 
-	  self.strenght = self.strength + 1
+	  self.strength = self.strength + 1
 	  puts "Your muscles tremble with new power."
 	when 1 then
 	  self.dexterity = self.dexterity + 1
