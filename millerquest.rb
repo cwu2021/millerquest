@@ -1,5 +1,16 @@
 #!/usr/bin/ruby
 # $Id$
+#######################################################################
+#
+# Miller's Quest!
+#
+# Written by WWWWolf
+# Logo made with Figlet
+# Thanks for the idea to Grumdrig
+# with all respect to why :)
+#
+#######################################################################
+
 
 require 'yaml'
 require 'yaml/store'
@@ -208,6 +219,17 @@ class Player
 
   attr_accessor :current_progress, :current_enemy
 
+  def initialize
+    @gold = 0
+    @exp = 0
+
+    @location = 'prologue'
+    @chapter = 1
+    @quests_completed = []
+
+    @possessions = []
+  end
+
   def level
     return (Math.sqrt(exp)/Math.sqrt(1234)).floor + 1
   end
@@ -230,9 +252,9 @@ class Player
 
   def print_character_sheet
     print_line
-    puts "Character sheet for #{self.name}"
+    puts "Character sheet for #{@name}, a #{@gender} #{@race} #{@profession}"
     print_stats
-    puts "  Level #{self.level}, XP #{self.exp}, #{self.to_next_level} to the next level"
+    puts "  Level #{level}, XP #{@exp}, #{to_next_level} to the next level"
     print_line
     print_possessions
     print_line
@@ -241,11 +263,11 @@ class Player
   end
   def print_stats
     print_line
-    puts "Strength:\t#{self.strength}"
-    puts "Dexterity:\t#{self.dexterity}"
-    puts "Guts:\t\t#{self.guts}"
-    puts "Intelligence:\t#{self.intelligence}"
-    puts "Charm:\t\t#{self.charm}"
+    puts "Strength:\t#{@strength}"
+    puts "Dexterity:\t#{@dexterity}"
+    puts "Guts:\t\t#{@guts}"
+    puts "Intelligence:\t#{@intelligence}"
+    puts "Charm:\t\t#{@charm}"
     print_line
   end
   def print_possessions
@@ -397,6 +419,17 @@ def new_game
   print "Enter player name: "
   $player.name = gets.chomp
 
+  ok = false
+  while not ok
+    print "Art thou M)ale or F)emale? "
+    gender = gets.chomp
+    case gender
+      when 'm', 'M' then gender = 'male'; ok = true
+      when 'f', 'F' then gender = 'female'; ok = true
+    end
+  end
+  $player.gender = gender
+
   $player.race =
     get_option(PLAYER_RACES,"Which race do you pick? ",
 	       "That's a completely wrong number, my friend...")
@@ -404,12 +437,6 @@ def new_game
     get_option(PLAYER_PROFESSIONS,"Which profession do you pick? ",
 	       "I don't think that's really a valid option...")
 
-  $player.exp = 0
-  $player.gold = 0
-
-  $player.location = 'prologue'
-  $player.chapter = 1
-  $player.quests_completed = []
   
   ok = false
   while not ok
@@ -430,8 +457,6 @@ def new_game
   end
 
   $player.spells = { SPELLS.random_item => 1 }
-
-  $player.possessions = []
 
   $player.re_equip
 
@@ -525,7 +550,7 @@ else
     load_game($filename)
   else
     puts "Cannot find or read #{$filename}, starting a new game"
-    newgame
+    new_game
   end
 end
 
@@ -617,8 +642,8 @@ end
 __END__
                                                 <>
                   /\\,/\\,    ,, ,,              )      
-                 /| || ||   ' || ||                              logo made
-                 || || ||  \\ || ||  _-_  ,._-_    _-_,        with Figlet
+                 /| || ||   ' || ||
+                 || || ||  \\ || ||  _-_  ,._-_    _-_,
                  ||=|= ||  || || || || \\  ||     ||_.  
                 ~|| || ||  || || || ||/    ||      ~ || 
                  |, \\,\\, \\ \\ \\ \\,/   \\,    ,-_-  
