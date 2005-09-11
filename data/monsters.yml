@@ -1,0 +1,300 @@
+a lowland orc: !ruby/object:Monster 
+  corpse: assorted weapons
+  description: "A large green humanoid, smarter and more fierce than average goblin."
+  strength: 18
+  dexterity: 13
+  guts: 12
+  charm: 6
+  intelligence: 8
+  exp: 10
+  name: a lowland orc
+  weight: 20
+  hitdie: 2
+  armor: !ruby/object:Armor 
+    bonus: 1
+    material: ring
+    type: mail
+  weapon: !ruby/object:Weapon 
+    bonus: -1
+    material: crude steel
+    type: sword
+a coffee elemental: !ruby/object:Monster 
+  corpse: an unwashed cup
+  description: Known to keep players on toes.
+  strength: 10
+  dexterity: 15
+  guts: 7
+  intelligence: 18
+  charm: 10
+  exp: 30
+  name: a coffee elemental
+  weight: 10
+  hitdie: 4
+  armor: !ruby/object:Armor 
+    bonus: 2
+    material: torrentual
+    type: coffee
+  weapon: !ruby/object:Weapon 
+    bonus: 1
+    material: hot
+    type: coffee
+an exploding cow: !ruby/object:Monster 
+  corpse: a ticking package
+  description: Black-spotted thing of terror. Very persuasive.
+  strength: 16
+  dexterity: 12
+  guts: 10
+  intelligence: 2
+  charm: 2
+  exp: 40
+  name: an exploding cow
+  weight: 25
+  hitdie: 2
+  armor: !ruby/object:Armor 
+    bonus: -2
+    material: cow
+    type: hide
+  weapon: !ruby/object:Weapon 
+    bonus: 1
+    material: splosive
+    type: moo
+a formaldehyde elemental: !ruby/object:Monster 
+  corpse: embalming fluid component
+  description: A repugnant blue cloud.
+  strength: 12
+  guts: 14
+  dexterity: 8
+  intelligence: 0
+  charm: 4
+  exp: 30
+  name: a formaldehyde elemental
+  weight: 10
+  hitdie: 4
+  armor: !ruby/object:Armor 
+    bonus: 0
+    material: death-smell
+    type: vapor
+  weapon: !ruby/object:Weapon 
+    bonus: 2
+    material: death-smell
+    type: vapor
+a potato assassin: !ruby/object:Monster 
+  corpse: a set of kitchen knifes
+  description: No spud feels safe when these people are afoot.
+  strength: 10
+  dexterity: 22
+  guts: 10
+  intelligence: 19
+  charm: 17
+  exp: 30
+  name: a potato assassin
+  weight: 20
+  hitdie: 2
+  armor: !ruby/object:Armor 
+    bonus: 0
+    material: black
+    type: clothes
+  weapon: !ruby/object:Weapon 
+    bonus: 1
+    material: steel
+    type: fruit knife
+a nasty forum troll: !ruby/object:Monster 
+  corpse: a broken reply button
+  description: "A huge, warty, green-skinned thing not blessed with intellect."
+  strength: 5
+  dexterity: 6
+  guts: 15
+  intelligence: 18
+  charm: 4
+  exp: 300
+  name: a nasty forum troll
+  weight: 30
+  hitdie: 3
+  armor: !ruby/object:Armor 
+    bonus: 2
+    material: honest
+    type: stupidity
+  weapon: !ruby/object:Weapon 
+    bonus: -1
+    material: non-witty
+    type: reply
+a zombie-summoning shaman: !ruby/object:Monster 
+  corpse: a painted rattler and a whole bunch of twice-killed pieces
+  description: This person seems to do some voodoo stuff to summon a lot of zombies.
+  strength: 10
+  dexterity: 12
+  intelligence: 17
+  guts: 6
+  charm: 16
+  exp: 180
+  name: a zombie-summoning shaman
+  weight: 30
+  hitdie: 2
+  armor: !ruby/object:Armor 
+    bonus: 0
+    material: colorful
+    type: clothing
+  weapon: !ruby/object:Weapon 
+    bonus: 0
+    material: mysterious
+    type: rattler
+a goblin: !ruby/object:Monster 
+  corpse: newbieishly severed goblin head
+  description: These things infest many a first floor of newbie dungeons.
+  strength: 6
+  dexterity: 10
+  guts: 4
+  intelligence: 1
+  charm: 1
+  exp: 1
+  name: a goblin
+  weight: 8
+  hitdie: 1
+  armor: !ruby/object:Armor 
+    bonus: 0
+    material: bitten wood
+    type: shield
+  weapon: !ruby/object:Weapon 
+    bonus: 0
+    material: rusty steel
+    type: short sword
+a white-hatted kangaroo: !ruby/object:Monster 
+  corpse: a pouched sombrero
+  description: Nobody knows what these things do. They look mysterious.
+  strength: 16
+  dexterity: 12
+  guts: 14
+  intelligence: 12
+  charm: 6
+  exp: 30
+  name: a white-hatted kangaroo
+  weight: 30
+  hitdie: 3
+  armor: !ruby/object:Armor 
+    bonus: 0
+    material: hat
+    type: aura
+  weapon: !ruby/object:Weapon 
+    bonus: 2
+    material: wicked
+    type: punch
+a vampire without a speech impediment: !ruby/object:Monster 
+  corpse: shortened vampire fangs
+  description: A rare creature that seems to suffer from not having enough blood.
+  strength: 10
+  dexterity: 12
+  guts: 10
+  intelligence: 12
+  charm: 18
+  exp: 120
+  name: a vampire without a speech impediment
+  weight: 5
+  hitdie: 4
+  armor: !ruby/object:Armor 
+    bonus: 0
+    material: opera
+    type: cloak
+  weapon: !ruby/object:Weapon 
+    bonus: 2
+    material: pointy
+    type: teeth
+an enchanted Wartburg: !ruby/object:Monster 
+  corpse: a possessed gearbox
+  description: "A four-wheeled, self-moving cart, with words 'pickled cucumbers' emblazoned on its side, and a nasty look on its 'face'."
+  strength: 18
+  dexterity: 6
+  guts: 14
+  intelligence: 7
+  charm: 2
+  exp: 200
+  name: an enchanted Wartburg
+  weight: 200
+  hitdie: 6
+  armor: !ruby/object:Armor 
+    bonus: -1
+    material: plastic
+    type: plating
+  weapon: !ruby/object:Weapon 
+    bonus: 2
+    material: oriental halogen
+    type: headlights
+a scrap metal golem: !ruby/object:Monster 
+  corpse: a collection of forgotten faucets
+  description: A mysterious creature with a trashcan head and arms of drain pipe.
+  strength: 20
+  dexterity: 4
+  guts: 18
+  intelligence: 0
+  charm: 0
+  exp: 100
+  name: a scrap metal golem
+  weight: 100
+  hitdie: 5
+  armor: !ruby/object:Armor 
+    bonus: 3
+    material: musterious
+    type: metal bits
+  weapon: !ruby/object:Weapon 
+    bonus: 2
+    material: assorted
+    type: metal hand
+a zombie: !ruby/object:Monster 
+  corpse: twice-killed pieces
+  description: "This former person seems to wander about, looking for brains."
+  strength: 15
+  dexterity: 3
+  guts: 8
+  intelligence: 0
+  charm: 0
+  exp: 80
+  name: a zombie
+  weight: 10
+  hitdie: 2
+  armor: !ruby/object:Armor 
+    bonus: -3
+    material: braiinnnns
+    type: braiinnnnnns
+  weapon: !ruby/object:Weapon 
+    bonus: -2
+    material: braiiiinnnnnns
+    type: braiiiiiiiiiins
+a vampire without a noticeable accent: !ruby/object:Monster 
+  corpse: a well-thumbed dictionary
+  description: A creature of night that clearly seems to have no noble lineage whatsoever.
+  strength: 10
+  dexterity: 12
+  guts: 10
+  intelligence: 14
+  charm: 19
+  exp: 200
+  name: a vampire without a noticeable accent
+  weight: 5
+  hitdie: 4
+  armor: !ruby/object:Armor 
+    bonus: 0
+    material: opera cloak
+    type: mail
+  weapon: !ruby/object:Weapon 
+    bonus: 2
+    material: small pointy
+    type: teeth
+a group of smelly critters: !ruby/object:Monster 
+  corpse: pungent hides
+  description: "While lacking in strength, their strength lies in sheer numbers and their persuasive smell."
+  strength: 13
+  dexterity: 18
+  guts: 10
+  intelligence: 7
+  charm: 2
+  exp: 130
+  name: a group of smelly critters
+  weight: 30
+  hitdie: 2
+  armor: !ruby/object:Armor 
+    bonus: 1
+    material: pungent
+    type: smell
+  weapon: !ruby/object:Weapon 
+    bonus: 2
+    material: sharp
+    type: teeth
