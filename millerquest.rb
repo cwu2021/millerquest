@@ -17,172 +17,6 @@ require 'yaml/store'
 
 #######################################################################
 
-PLAYER_PROFESSIONS = [
-  'arborian',
-  'armchair strategist',
-  'blade-thrust diplomat',
-  'bungie cord wizard',
-  'divinity abstractifier',
-  'orator paladin',
-  'professional cookie cutter',
-  'rogue of Hague',
-  'soccerer',
-]
-
-PLAYER_RACES = [
-  'man-ant',
-  'giggling hyenoid',
-  'out-of-focus elf',
-  'flute-music-backed elf',
-  'alliterative worminator',
-  'dragon-trout',
-  'wobblit',
-  'animated broom',
-  'argumentoyle'
-]
-
-SPELLS = [
-  "Mormyshka's Blisters",
-  "Annihilate Nose Hair",
-  "Edmundus' Flagrant Aspergellation",
-  "Retawesorkram's Tricky Surprise",
-  "Flaming Carrot",
-  "Ethereal Sweden",
-  "Greydy's Clever Tax Evasion",
-  "Reynard's Iron Stove",
-  "Jaegermaister's Fine Abjuration",
-  "Protection from Cramps",
-  "Banish Bureaucracy",
-  "Summon Lesser Lawyer",
-  "Summon Greater Lawyer",
-  "Dine Stop",
-  "Horrid Whining",
-  "Gassy Visage",
-  "Transmute CMYK to RGB",
-]
-
-class Monster
-  attr_accessor :name, :exp, :corpse, :weight
-end
-
-# monster, xp, corpse, weight
-$monsters = YAML::load(<<MONSTERS)
---- 
-an exploding cow: !ruby/object:Monster 
-  name: an exploding cow
-  corpse: a ticking package
-  exp: 40
-  weight: 25
-a coffee elemental: !ruby/object:Monster 
-  name: a coffee elemental
-  corpse: an unwashed cup
-  exp: 30
-  weight: 10
-a lowland orc: !ruby/object:Monster 
-  name: a lowland orc
-  corpse: assorted weapons
-  exp: 10
-  weight: 20
-a formaldehyde elemental: !ruby/object:Monster 
-  name: a formaldehyde elemental
-  corpse: embalming fluid component
-  exp: 30
-  weight: 10
-a nasty forum troll: !ruby/object:Monster 
-  name: a nasty forum troll
-  corpse: a broken reply button
-  exp: 300
-  weight: 30
-a potato assassin: !ruby/object:Monster 
-  name: a potato assassin
-  corpse: a set of kitchen knifes
-  exp: 30
-  weight: 20
-a goblin: !ruby/object:Monster 
-  name: a goblin
-  corpse: newbieishly severed goblin head
-  exp: 1
-  weight: 8
-a white-hatted kangaroo: !ruby/object:Monster 
-  name: a white-hatted kangaroo
-  corpse: a pouched sombrero
-  exp: 30
-  weight: 30
-a vampire without a speech impediment: !ruby/object:Monster 
-  name: a vampire without a speech impediment
-  corpse: shortened vampire fangs
-  exp: 120
-  weight: 5
-an enchanted Wartburg: !ruby/object:Monster 
-  name: an enchanted Wartburg
-  corpse: a possessed gearbox
-  exp: 200
-  weight: 200
-a vampire without a noticeable accent: !ruby/object:Monster 
-  name: a vampire withot a noticeable accent
-  corpse: a well-thumbed dictionary
-  exp: 200
-  weight: 5
-a group of smelly critters: !ruby/object:Monster 
-  name: a group of smelly critters
-  corpse: pungent hides
-  exp: 130
-  weight: 30
-a zombie: !ruby/object:Monster 
-  name: a zombie
-  corpse: twice-killed pieces
-  exp: 80
-  weight: 10
-a scrap metal golem: !ruby/object:Monster 
-  name: a scrap metal golem
-  corpse: a collection of forgotten faucets
-  exp: 100
-  weight: 100
-a zombie-summoning shaman: !ruby/object:Monster 
-  name: a zombie-summoning shaman
-  corpse: a painted rattler and a whole bunch of twice-killed pieces
-  exp: 180
-  weight: 30
-MONSTERS
-
-
-WEAPONS = 
-  ["sword", "dagger", "spear", "mooring hook", "trident", "pencil",
-  "pea shooter", "greatsword", "axe", "battle axe", "glaive",
-  "halberd", "katana", "scimitar" ]
-MATERIALS =
-  ["ivory", "leather", "plastic", "gold", "crystal", "mithril",
-  "ruby", "ruby", "steel", "iron", "diamond", "wool", "hickory",
-  "ashwood", "balsa", "oak", "bamboo"]
-ARMORS =
-  ["plate", "mail", "suit"]
-
-
-# Bad places courtesy of AutoREALM's generator (the Rager port)
-PLACES = [
-  "Mountain of Wailing Doom",
-  "Xos's Pass",
-  "Temple of Clamorous Chaos",
-  "Mox's Tunnel of Scented Blasphemy",
-  "Village of Gushing Alliances",
-  "Den of Blue Chaos",
-  "Lands of White Dread",
-  "Crypt of Murac's Beholders",
-  "Crater of Yellow Horror",
-  "The Keeper's Village",
-  "Hiding Place of Sidina's Creeps",
-  "The Beekeeper's Den",
-  "The Chamber of Porase's Beasts",
-  "The Troll's Disappointment",
-]
-ITEMS = [
-  "sack of gold", "newspaper", "legendary sword", "busted shield",
-  "bottle of mouthwash", "toothpick", "rotten boots", "pencil",
-  "jar of salsa sauce", "telescope", "mysterious crystal"
-]
-
-#######################################################################
-
 class Array
   def random_item
     return self[rand(self.length)]
@@ -198,17 +32,29 @@ class Hash
   end
 end
 
+#######################################################################
 
-class Player
+class LivingThing
+  attr_accessor :strength, :dexterity, :guts, :intelligence, :charm
+  attr_accessor :hp, :maxhp
+  attr_accessor :description
+  def damage(points)
+    @hp = @hp - points
+  end
+end
+
+class Monster < LivingThing
+  attr_accessor :name, :exp, :corpse, :weight
+end
+
+class Player < LivingThing
   attr_accessor :name
   attr_accessor :gender
   attr_accessor :race
 
   attr_accessor :profession
 
-  attr_accessor :strength,:dexterity,:guts,:intelligence,:charm
-
-  attr_accessor :weapon,:armor
+  attr_accessor :weapon, :armor
 
   attr_accessor :spells
   attr_accessor :possessions
@@ -228,6 +74,55 @@ class Player
     @quests_completed = []
 
     @possessions = []
+    @spells = {}
+  end
+
+  def setup_for_new_game
+    print "Enter player name: "
+    @name = gets.chomp
+
+    ok = false
+    while not ok
+      print "Art thou M)ale or F)emale? "
+      gender = gets.chomp
+      case gender
+      when 'm', 'M' then gender = 'male'; ok = true
+      when 'f', 'F' then gender = 'female'; ok = true
+      end
+    end
+    @gender = gender
+
+    @race =
+      get_option($player_races,"Which race do you pick? ",
+		 "That's a completely wrong number, my friend...")
+    @profession =
+      get_option($player_professions,"Which profession do you pick? ",
+		 "I don't think that's really a valid option...")
+
+    
+    ok = false
+    while not ok
+      @strength = rand(16)+3
+      @dexterity = rand(16)+3
+      @guts = rand(16)+3
+      @intelligence = rand(16)+3
+      @charm = rand(16)+3
+
+      self.print_stats
+      print "A)ccept, R)eroll, M)unchkin? "
+      response = gets.chomp
+      case response
+      when 'a', 'A' then ok = true
+      when 'r', 'R' then ok = false
+      when 'm', 'M' then self.munchkinify; ok = true      
+      else puts "Uh, no idea what you meant, rerolling anyway"
+      end
+    end
+
+    spell = MemorizedSpell.new_random
+    @spells[spell.name] = spell
+
+    self.re_equip
   end
 
   def level
@@ -256,6 +151,8 @@ class Player
     print_stats
     puts "  Level #{level}, XP #{@exp}, #{to_next_level} to the next level"
     print_line
+    print_spells
+    print_line
     print_possessions
     print_line
     print_quests
@@ -269,6 +166,12 @@ class Player
     puts "Intelligence:\t#{@intelligence}"
     puts "Charm:\t\t#{@charm}"
     print_line
+  end
+  def print_spells
+    puts "Known spells:"
+    self.spells.keys.sort.each do |s|
+      puts "\t#{self.spells[s].to_s}"
+    end
   end
   def print_possessions
     knap = self.possessions.collect {|i| i.corpse}
@@ -284,6 +187,8 @@ class Player
       a[1]<=>b[1]}.reverse.collect { |i|
       "#{i[1]} x #{i[0]}" 
     }
+    puts "Weapon:\t#{@weapon}"
+    puts "Armor:\t#{@armor}"
     puts "Items in knapsack:\n\t" + sorted_knap.join("\n\t")
   end
   def print_quests
@@ -296,11 +201,11 @@ class Player
 
   def re_equip
     self.weapon =
-      MATERIALS.random_item + " " +
-      WEAPONS.random_item + " " +sprintf("%+1d",(level/3-2+rand(3)))
+      $materials.random_item + " " +
+      $weapons.random_item + " " +sprintf("%+1d",(level/3-2+rand(3)))
     self.armor =
-      MATERIALS.random_item + " " +
-      ARMORS.random_item + " " +sprintf("%+1d",(level/3-2+rand(4)))
+      $materials.random_item + " " +
+      $armors.random_item + " " +sprintf("%+1d",(level/3-2+rand(4)))
   end
 
   def addxp(amt)
@@ -331,18 +236,18 @@ class Player
 	  die "Well, that was weird. Odd stat?"
 	end
 
-	if(self.spells.keys.length >= SPELLS.length or rand(100) < 50)
+	if(self.spells.keys.length >= $spells.length or rand(100) < 50)
 	  # Increase level of an existing spell
 	  oldspell = self.spells.random_key
-	  self.spells[oldspell] = self.spells[oldspell] + 1
+	  self.spells[oldspell].addlevel
 	  puts "Gained a new skill level in spell #{oldspell}."
 	else
 	  # A whole new spell
-	  newspell = SPELLS.random_item
+	  newspell = $spells.random_item
 	  while self.spells.has_key?(newspell)
-	    newspell = SPELLS.random_item
+	    newspell = $spells.random_item
 	  end
-	  self.spells[newspell] = 1
+	  self.spells[newspell] = MemorizedSpell.new_named(newspell)
 	  puts "Learned a new spell #{newspell}."
 	end
       end
@@ -362,8 +267,8 @@ end
 class Quest
   attr_reader :description
   def initialize
-    item = ITEMS.random_item
-    place = PLACES.random_item
+    item = $items.random_item
+    place = $places.random_item
     monster = $monsters.random_item.name
     case rand(5)
     when 0 then @description = "find a #{item} from #{place}"
@@ -375,7 +280,70 @@ class Quest
   end
 end
 
+class MemorizedSpell
+  attr_accessor :name, :level
+
+  def addlevel
+    @level = @level + 1
+  end
+  def to_s
+    "#{@name} #{@level}"
+  end
+  def MemorizedSpell.new_random
+    a = MemorizedSpell.new
+    a.name = $spells.random_item
+    a.level = 1
+    return a
+  end
+  def MemorizedSpell.new_named(name)
+    a = MemorizedSpell.new
+    a.name = name
+    a.level = 1
+    return a
+  end
+end
+
 #######################################################################
+
+def load_array_from_data_delimited(delim)
+  start_delim = delim + '_BEGIN'
+  end_delim = delim + '_END'
+  content = []
+  line = ''
+  while line != start_delim
+    line = DATA.readline.chomp
+  end
+  while line != end_delim
+    line = DATA.readline.chomp
+    if line != end_delim
+      content.push(line)
+    end
+  end
+  DATA.rewind
+  return content
+end
+
+def load_string_from_data_delimited(delim)
+  load_array_from_data_delimited(delim).join("\n")
+end
+
+def load_yaml_from_data_delimited(delim)
+  YAML::load(load_string_from_data_delimited(delim))
+end
+
+def load_game_data
+  $title_screen = load_string_from_data_delimited('TITLE')
+  $monsters = load_yaml_from_data_delimited('MONSTER')
+
+  $player_professions = load_array_from_data_delimited('PLAYER_PROFESSIONS')
+  $player_races = load_array_from_data_delimited('PLAYER_RACES')
+  $spells = load_array_from_data_delimited('SPELLS')
+  $places = load_array_from_data_delimited('PLACES')
+  $items = load_array_from_data_delimited('ITEMS')
+  $weapons = load_array_from_data_delimited('WEAPONS')
+  $materials = load_array_from_data_delimited('MATERIALS')
+  $armors = load_array_from_data_delimited('ARMORS')
+end
 
 def ask_filename
   print "Enter savegame file name: "
@@ -416,52 +384,8 @@ end
 
 def new_game
   $player = Player.new
-  print "Enter player name: "
-  $player.name = gets.chomp
-
-  ok = false
-  while not ok
-    print "Art thou M)ale or F)emale? "
-    gender = gets.chomp
-    case gender
-      when 'm', 'M' then gender = 'male'; ok = true
-      when 'f', 'F' then gender = 'female'; ok = true
-    end
-  end
-  $player.gender = gender
-
-  $player.race =
-    get_option(PLAYER_RACES,"Which race do you pick? ",
-	       "That's a completely wrong number, my friend...")
-  $player.profession =
-    get_option(PLAYER_PROFESSIONS,"Which profession do you pick? ",
-	       "I don't think that's really a valid option...")
-
-  
-  ok = false
-  while not ok
-    $player.strength = rand(16)+3
-    $player.dexterity = rand(16)+3
-    $player.guts = rand(16)+3
-    $player.intelligence = rand(16)+3
-    $player.charm = rand(16)+3
-
-    $player.print_stats
-    print "A)ccept, R)eroll, M)unchkin? "
-    response = gets.chomp
-    case response
-      when 'a', 'A' then ok = true
-      when 'r', 'R' then ok = false
-      when 'm', 'M' then $player.munchkinify; ok = true      
-    end
-  end
-
-  $player.spells = { SPELLS.random_item => 1 }
-
-  $player.re_equip
-
+  $player.setup_for_new_game
   save_game(:interactive)
-
 end
 
 def printlist(list)
@@ -491,7 +415,7 @@ def get_option(list,prompt,errormsg)
 end
 
 def titlescreen
-  puts DATA.readlines
+  puts $title_screen
 end
 
 def titlebar(title,letter)
@@ -530,6 +454,8 @@ end
 # Main program
 
 $player = nil
+
+load_game_data
 
 titlescreen
 $filename = ARGV.pop
@@ -596,8 +522,7 @@ begin
 	quest = Quest.new
 	$player.quests_completed.push(quest)
 	puts "You have a new quest: #{quest.description}!"
-      end
-      if $player.quests_completed.length > 10 and rand(10) < 2
+      elsif $player.quests_completed.length > 10 and rand(10) < 2
 	$player.quests_completed = []
 	$player.chapter = $player.chapter + 1
 	puts "You have completed all quests in this chapter!"
@@ -611,6 +536,7 @@ begin
       when 2 then progress("Taking a few steps out of town to find monsters",5)
       end
       $player.location = 'killingfields'
+      save_game($filename)
     elsif $player.location == 'killingfields'
       while not $player.carrying_too_much?
 	if $player.current_enemy.nil?
@@ -622,8 +548,8 @@ begin
 	progress("Killing #{monster}",40)
 	drop = $player.current_enemy
 	$player.current_enemy = nil
-	puts "Got #{drop.exp} exp. #{$player.to_next_level} to next level."
 	$player.addxp(drop.exp)
+	puts "Got #{drop.exp} exp. #{$player.to_next_level} to next level."
 	$player.possessions.push(drop)
 	puts "Currently carrying " +
 	  "#{$player.loot_weight}/#{$player.carrying_capacity}"
@@ -636,10 +562,18 @@ begin
 rescue Interrupt
   puts
   puts "Game interrupted."
+  puts "Character sheet at the end of the session:"
+  $player.print_character_sheet
   save_game($filename)
 end
 
+
 __END__
+
+The game data follows.
+
+TITLE_BEGIN
+
                                                 <>
                   /\\,/\\,    ,, ,,              )      
                  /| || ||   ' || ||
@@ -661,4 +595,299 @@ __END__
                     A Weyfour WWWWolf production
                     Distributed under GNU GPL v2
               Inspired by "Progress Quest" by Grumdrig
+
+
+TITLE_END
+
+MONSTER_BEGIN
+--- 
+an exploding cow: !ruby/object:Monster 
+  name: an exploding cow
+  corpse: a ticking package
+  strength: 16
+  dexterity: 12
+  guts: 10
+  intelligence: 2
+  charm: 2
+  exp: 40
+  weight: 25
+  description: "Black-spotted thing of terror. Very persuasive."
+a coffee elemental: !ruby/object:Monster 
+  name: a coffee elemental
+  corpse: an unwashed cup
+  strength: 10
+  dexterity: 15
+  guts: 7
+  intelligence: 18
+  charm: 10
+  exp: 30
+  weight: 10
+  description: "Known to keep players on toes."
+a lowland orc: !ruby/object:Monster 
+  name: a lowland orc
+  corpse: assorted weapons
+  strength: 18
+  dexterity: 13
+  guts: 12
+  intelligence: 8
+  charm: 6
+  exp: 10
+  weight: 20
+  description: "A large green humanoid, smarter and more fierce than average goblin."
+a formaldehyde elemental: !ruby/object:Monster 
+  name: a formaldehyde elemental
+  corpse: embalming fluid component
+  strength: 12
+  dexterity: 8
+  guts: 14
+  intelligence: 0
+  charm: 4
+  exp: 30
+  weight: 10
+  description: "A repugnant blue cloud."
+a nasty forum troll: !ruby/object:Monster 
+  name: a nasty forum troll
+  corpse: a broken reply button
+  strength: 5
+  dexterity: 6
+  guts: 15
+  intelligence: 18
+  charm: 4
+  exp: 300
+  weight: 30
+  description: "A huge, warty, green-skinned thing not blessed with intellect."
+a potato assassin: !ruby/object:Monster 
+  name: a potato assassin
+  corpse: a set of kitchen knifes
+  strength: 10
+  dexterity: 22
+  guts: 10
+  intelligence: 19
+  charm: 17
+  exp: 30
+  weight: 20
+  description: "No spud feels safe when these people are afoot."
+a goblin: !ruby/object:Monster 
+  name: a goblin
+  corpse: newbieishly severed goblin head
+  strength: 6
+  dexterity: 10
+  guts: 4
+  intelligence: 1
+  charm: 1
+  exp: 1
+  weight: 8
+  description: "These things infest many a first floor of newbie dungeons."
+a white-hatted kangaroo: !ruby/object:Monster 
+  name: a white-hatted kangaroo
+  corpse: a pouched sombrero
+  strength: 16
+  dexterity: 12
+  guts: 14
+  intelligence: 12
+  charm: 6
+  exp: 30
+  weight: 30
+  description: "Nobody knows what these things do. They look mysterious."
+a vampire without a speech impediment: !ruby/object:Monster 
+  name: a vampire without a speech impediment
+  corpse: shortened vampire fangs
+  strength: 10
+  dexterity: 12
+  guts: 10
+  intelligence: 12
+  charm: 18
+  exp: 120
+  weight: 5
+  description: "A rare creature that seems to suffer from not having enough blood."
+an enchanted Wartburg: !ruby/object:Monster 
+  name: an enchanted Wartburg
+  corpse: a possessed gearbox
+  strength: 18
+  dexterity: 6
+  guts: 14
+  intelligence: 7
+  charm: 2
+  exp: 200
+  weight: 200
+  description: "A four-wheeled, self-moving cart, with words 'pickled cucumbers' emblazoned on its side, and a nasty look on its 'face'."
+a vampire without a noticeable accent: !ruby/object:Monster 
+  name: a vampire without a noticeable accent
+  corpse: a well-thumbed dictionary
+  strength: 10
+  dexterity: 12
+  guts: 10
+  intelligence: 14
+  charm: 19
+  exp: 200
+  weight: 5
+  description: "A creature of night that clearly seems to have no noble lineage whatsoever."
+a group of smelly critters: !ruby/object:Monster 
+  name: a group of smelly critters
+  corpse: pungent hides
+  strength: 13
+  dexterity: 18
+  guts: 10
+  intelligence: 7
+  charm: 2
+  exp: 130
+  weight: 30
+  description: "While lacking in strength, their strength lies in sheer numbers and their persuasive smell."
+a zombie: !ruby/object:Monster 
+  name: a zombie
+  corpse: twice-killed pieces
+  strength: 15
+  dexterity: 3
+  guts: 8
+  intelligence: 0
+  charm: 0
+  exp: 80
+  weight: 10
+  description: "This former person seems to wander about, looking for brains."
+a scrap metal golem: !ruby/object:Monster 
+  name: a scrap metal golem
+  corpse: a collection of forgotten faucets
+  strength: 20
+  dexterity: 4
+  guts: 18
+  intelligence: 0
+  charm: 0
+  exp: 100
+  weight: 100
+  description: "A mysterious creature with a trashcan head and arms of drain pipe."
+a zombie-summoning shaman: !ruby/object:Monster 
+  name: a zombie-summoning shaman
+  corpse: a painted rattler and a whole bunch of twice-killed pieces
+  strength: 10
+  dexterity: 12
+  guts: 6
+  intelligence: 17
+  charm: 16
+  exp: 180
+  weight: 30
+  description: "This person seems to do some voodoo stuff to summon a lot of zombies."
+
+
+MONSTER_END
+
+PLAYER_PROFESSIONS_BEGIN
+arborian
+armchair strategist
+blade-thrust diplomat
+bungie cord wizard
+divinity abstractifier
+orator paladin
+professional cookie cutter
+rogue of Hague
+soccerer
+PLAYER_PROFESSIONS_END
+
+PLAYER_RACES_BEGIN
+man-ant
+giggling hyenoid
+out-of-focus elf
+flute-music-backed elf
+alliterative worminator
+dragon-trout
+wobblit
+animated broom
+argumentoyle
+PLAYER_RACES_END
+
+SPELLS_BEGIN
+Annihilate Nose Hair
+Banish Bureaucracy
+Dine Stop
+Edmundus' Flagrant Aspergellation
+Ethereal Sweden
+Flaming Carrot
+Gassy Visage
+Greydy's Clever Tax Evasion
+Horrid Whining
+Jaegermaister's Fine Abjuration
+Mormyshka's Blisters
+Protection from Cramps
+Retawesorkram's Tricky Surprise
+Reynard's Iron Stove
+Summon Greater Lawyer
+Summon Lesser Lawyer
+Transmute CMYK to RGB
+SPELLS_END
+
+
+Bad places courtesy of AutoREALM's generator (the Rager port)
+
+PLACES_BEGIN
+Crater of Yellow Horror
+Crypt of Murac's Beholders
+Den of Blue Chaos
+Hiding Place of Sidina's Creeps
+Lands of White Dread
+Mountain of Wailing Doom
+Mox's Tunnel of Scented Blasphemy
+Temple of Clamorous Chaos
+The Beekeeper's Den
+The Chamber of Porase's Beasts
+The Keeper's Village
+The Troll's Disappointment
+Village of Gushing Alliances
+Xos's Pass
+PLACES_END
+
+ITEMS_BEGIN
+bottle of mouthwash
+busted shield
+jar of salsa sauce
+legendary sword
+mysterious crystal
+newspaper
+pencil
+rotten boots
+sack of gold
+telescope
+toothpick
+ITEMS_END
+
+WEAPONS_BEGIN
+axe
+battle axe
+dagger
+glaive
+greatsword
+halberd
+katana
+mooring hook
+pea shooter
+pencil
+scimitar
+spear
+sword
+trident
+WEAPONS_END
+
+MATERIALS_BEGIN
+ashwood
+balsa
+bamboo
+crystal
+diamond
+gold
+hickory
+iron
+ivory
+leather
+mithril
+oak
+plastic
+ruby
+ruby
+steel
+wool
+MATERIALS_END
+
+ARMORS_BEGIN
+mail
+plate
+suit
+ARMORS_END
 
