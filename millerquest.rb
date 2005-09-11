@@ -305,44 +305,18 @@ end
 
 #######################################################################
 
-def load_array_from_data_delimited(delim)
-  start_delim = delim + '_BEGIN'
-  end_delim = delim + '_END'
-  content = []
-  line = ''
-  while line != start_delim
-    line = DATA.readline.chomp
-  end
-  while line != end_delim
-    line = DATA.readline.chomp
-    if line != end_delim
-      content.push(line)
-    end
-  end
-  DATA.rewind
-  return content
-end
-
-def load_string_from_data_delimited(delim)
-  load_array_from_data_delimited(delim).join("\n")
-end
-
-def load_yaml_from_data_delimited(delim)
-  YAML::load(load_string_from_data_delimited(delim))
-end
-
 def load_game_data
-  $title_screen = load_string_from_data_delimited('TITLE')
-  $monsters = load_yaml_from_data_delimited('MONSTER')
-
-  $player_professions = load_array_from_data_delimited('PLAYER_PROFESSIONS')
-  $player_races = load_array_from_data_delimited('PLAYER_RACES')
-  $spells = load_array_from_data_delimited('SPELLS')
-  $places = load_array_from_data_delimited('PLACES')
-  $items = load_array_from_data_delimited('ITEMS')
-  $weapons = load_array_from_data_delimited('WEAPONS')
-  $materials = load_array_from_data_delimited('MATERIALS')
-  $armors = load_array_from_data_delimited('ARMORS')
+  data = YAML::load(DATA)
+  $title_screen = data['title']
+  $monsters = data['monsters']
+  $player_professions = data['player_professions']
+  $player_races = data['player_races']
+  $spells = data['spells']
+  $places = data['places']
+  $items = data['items']
+  $weapons = data['weapons']
+  $materials = data['materials']
+  $armors = data['armors']
 end
 
 def ask_filename
@@ -569,325 +543,298 @@ end
 
 
 __END__
-
-The game data follows.
-
-TITLE_BEGIN
-
-                                                <>
-                  /\\,/\\,    ,, ,,              )      
-                 /| || ||   ' || ||
-                 || || ||  \\ || ||  _-_  ,._-_    _-_,
-                 ||=|= ||  || || || || \\  ||     ||_.  
-                ~|| || ||  || || || ||/    ||      ~ || 
-                 |, \\,\\, \\ \\ \\ \\,/   \\,    ,-_-  
-                _-   __                               
-                   ,-||-,                       ,  /\ 
-                  ('|||  )                     ||  \/ 
-                 (( |||--)) \\ \\  _-_   _-_, =||= }{ 
-                 (( |||--)) || || || \\ ||_.   ||  \/ 
-                  ( / |  )  || || ||/    ~ ||  ||     
-                   -____-\\ \\/\\ \\,/  ,-_-   \\, <> 
-                                                          
-                                                          
-                           MILLER'S QUEST!
-                     (c) Urpo Lankinen sep-2005
-                    A Weyfour WWWWolf production
-                    Distributed under GNU GPL v2
-              Inspired by "Progress Quest" by Grumdrig
-
-
-TITLE_END
-
-MONSTER_BEGIN
 --- 
-an exploding cow: !ruby/object:Monster 
-  name: an exploding cow
-  corpse: a ticking package
-  strength: 16
-  dexterity: 12
-  guts: 10
-  intelligence: 2
-  charm: 2
-  exp: 40
-  weight: 25
-  description: "Black-spotted thing of terror. Very persuasive."
-a coffee elemental: !ruby/object:Monster 
-  name: a coffee elemental
-  corpse: an unwashed cup
-  strength: 10
-  dexterity: 15
-  guts: 7
-  intelligence: 18
-  charm: 10
-  exp: 30
-  weight: 10
-  description: "Known to keep players on toes."
-a lowland orc: !ruby/object:Monster 
-  name: a lowland orc
-  corpse: assorted weapons
-  strength: 18
-  dexterity: 13
-  guts: 12
-  intelligence: 8
-  charm: 6
-  exp: 10
-  weight: 20
-  description: "A large green humanoid, smarter and more fierce than average goblin."
-a formaldehyde elemental: !ruby/object:Monster 
-  name: a formaldehyde elemental
-  corpse: embalming fluid component
-  strength: 12
-  dexterity: 8
-  guts: 14
-  intelligence: 0
-  charm: 4
-  exp: 30
-  weight: 10
-  description: "A repugnant blue cloud."
-a nasty forum troll: !ruby/object:Monster 
-  name: a nasty forum troll
-  corpse: a broken reply button
-  strength: 5
-  dexterity: 6
-  guts: 15
-  intelligence: 18
-  charm: 4
-  exp: 300
-  weight: 30
-  description: "A huge, warty, green-skinned thing not blessed with intellect."
-a potato assassin: !ruby/object:Monster 
-  name: a potato assassin
-  corpse: a set of kitchen knifes
-  strength: 10
-  dexterity: 22
-  guts: 10
-  intelligence: 19
-  charm: 17
-  exp: 30
-  weight: 20
-  description: "No spud feels safe when these people are afoot."
-a goblin: !ruby/object:Monster 
-  name: a goblin
-  corpse: newbieishly severed goblin head
-  strength: 6
-  dexterity: 10
-  guts: 4
-  intelligence: 1
-  charm: 1
-  exp: 1
-  weight: 8
-  description: "These things infest many a first floor of newbie dungeons."
-a white-hatted kangaroo: !ruby/object:Monster 
-  name: a white-hatted kangaroo
-  corpse: a pouched sombrero
-  strength: 16
-  dexterity: 12
-  guts: 14
-  intelligence: 12
-  charm: 6
-  exp: 30
-  weight: 30
-  description: "Nobody knows what these things do. They look mysterious."
-a vampire without a speech impediment: !ruby/object:Monster 
-  name: a vampire without a speech impediment
-  corpse: shortened vampire fangs
-  strength: 10
-  dexterity: 12
-  guts: 10
-  intelligence: 12
-  charm: 18
-  exp: 120
-  weight: 5
-  description: "A rare creature that seems to suffer from not having enough blood."
-an enchanted Wartburg: !ruby/object:Monster 
-  name: an enchanted Wartburg
-  corpse: a possessed gearbox
-  strength: 18
-  dexterity: 6
-  guts: 14
-  intelligence: 7
-  charm: 2
-  exp: 200
-  weight: 200
-  description: "A four-wheeled, self-moving cart, with words 'pickled cucumbers' emblazoned on its side, and a nasty look on its 'face'."
-a vampire without a noticeable accent: !ruby/object:Monster 
-  name: a vampire without a noticeable accent
-  corpse: a well-thumbed dictionary
-  strength: 10
-  dexterity: 12
-  guts: 10
-  intelligence: 14
-  charm: 19
-  exp: 200
-  weight: 5
-  description: "A creature of night that clearly seems to have no noble lineage whatsoever."
-a group of smelly critters: !ruby/object:Monster 
-  name: a group of smelly critters
-  corpse: pungent hides
-  strength: 13
-  dexterity: 18
-  guts: 10
-  intelligence: 7
-  charm: 2
-  exp: 130
-  weight: 30
-  description: "While lacking in strength, their strength lies in sheer numbers and their persuasive smell."
-a zombie: !ruby/object:Monster 
-  name: a zombie
-  corpse: twice-killed pieces
-  strength: 15
-  dexterity: 3
-  guts: 8
-  intelligence: 0
-  charm: 0
-  exp: 80
-  weight: 10
-  description: "This former person seems to wander about, looking for brains."
-a scrap metal golem: !ruby/object:Monster 
-  name: a scrap metal golem
-  corpse: a collection of forgotten faucets
-  strength: 20
-  dexterity: 4
-  guts: 18
-  intelligence: 0
-  charm: 0
-  exp: 100
-  weight: 100
-  description: "A mysterious creature with a trashcan head and arms of drain pipe."
-a zombie-summoning shaman: !ruby/object:Monster 
-  name: a zombie-summoning shaman
-  corpse: a painted rattler and a whole bunch of twice-killed pieces
-  strength: 10
-  dexterity: 12
-  guts: 6
-  intelligence: 17
-  charm: 16
-  exp: 180
-  weight: 30
-  description: "This person seems to do some voodoo stuff to summon a lot of zombies."
+title: |2+
+
+                                                  <>
+                    /\\,/\\,    ,, ,,              )      
+                   /| || ||   ' || ||
+                   || || ||  \\ || ||  _-_  ,._-_    _-_,
+                   ||=|= ||  || || || || \\  ||     ||_.  
+                  ~|| || ||  || || || ||/    ||      ~ || 
+                   |, \\,\\, \\ \\ \\ \\,/   \\,    ,-_-  
+                  _-   __                               
+                     ,-||-,                       ,  /\ 
+                    ('|||  )                     ||  \/ 
+                   (( |||--)) \\ \\  _-_   _-_, =||= }{ 
+                   (( |||--)) || || || \\ ||_.   ||  \/ 
+                    ( / |  )  || || ||/    ~ ||  ||     
+                     -____-\\ \\/\\ \\,/  ,-_-   \\, <> 
+                                                            
+                                                            
+                             MILLER'S QUEST!
+                       (c) Urpo Lankinen sep-2005
+                      A Weyfour WWWWolf production
+                      Distributed under GNU GPL v2
+                Inspired by "Progress Quest" by Grumdrig
 
 
-MONSTER_END
-
-PLAYER_PROFESSIONS_BEGIN
-arborian
-armchair strategist
-blade-thrust diplomat
-bungie cord wizard
-divinity abstractifier
-orator paladin
-professional cookie cutter
-rogue of Hague
-soccerer
-PLAYER_PROFESSIONS_END
-
-PLAYER_RACES_BEGIN
-man-ant
-giggling hyenoid
-out-of-focus elf
-flute-music-backed elf
-alliterative worminator
-dragon-trout
-wobblit
-animated broom
-argumentoyle
-PLAYER_RACES_END
-
-SPELLS_BEGIN
-Annihilate Nose Hair
-Banish Bureaucracy
-Dine Stop
-Edmundus' Flagrant Aspergellation
-Ethereal Sweden
-Flaming Carrot
-Gassy Visage
-Greydy's Clever Tax Evasion
-Horrid Whining
-Jaegermaister's Fine Abjuration
-Mormyshka's Blisters
-Protection from Cramps
-Retawesorkram's Tricky Surprise
-Reynard's Iron Stove
-Summon Greater Lawyer
-Summon Lesser Lawyer
-Transmute CMYK to RGB
-SPELLS_END
-
-
-Bad places courtesy of AutoREALM's generator (the Rager port)
-
-PLACES_BEGIN
-Crater of Yellow Horror
-Crypt of Murac's Beholders
-Den of Blue Chaos
-Hiding Place of Sidina's Creeps
-Lands of White Dread
-Mountain of Wailing Doom
-Mox's Tunnel of Scented Blasphemy
-Temple of Clamorous Chaos
-The Beekeeper's Den
-The Chamber of Porase's Beasts
-The Keeper's Village
-The Troll's Disappointment
-Village of Gushing Alliances
-Xos's Pass
-PLACES_END
-
-ITEMS_BEGIN
-bottle of mouthwash
-busted shield
-jar of salsa sauce
-legendary sword
-mysterious crystal
-newspaper
-pencil
-rotten boots
-sack of gold
-telescope
-toothpick
-ITEMS_END
-
-WEAPONS_BEGIN
-axe
-battle axe
-dagger
-glaive
-greatsword
-halberd
-katana
-mooring hook
-pea shooter
-pencil
-scimitar
-spear
-sword
-trident
-WEAPONS_END
-
-MATERIALS_BEGIN
-ashwood
-balsa
-bamboo
-crystal
-diamond
-gold
-hickory
-iron
-ivory
-leather
-mithril
-oak
-plastic
-ruby
-ruby
-steel
-wool
-MATERIALS_END
-
-ARMORS_BEGIN
-mail
-plate
-suit
-ARMORS_END
+items: 
+  - bottle of mouthwash
+  - busted shield
+  - jar of salsa sauce
+  - legendary sword
+  - mysterious crystal
+  - newspaper
+  - pencil
+  - rotten boots
+  - sack of gold
+  - telescope
+  - toothpick
+spells: 
+  - "Annihilate Nose Hair"
+  - "Banish Bureaucracy"
+  - "Dine Stop"
+  - "Edmundus' Flagrant Aspergellation"
+  - "Ethereal Sweden"
+  - "Flaming Carrot"
+  - "Gassy Visage"
+  - "Greydy's Clever Tax Evasion"
+  - "Horrid Whining"
+  - "Jaegermaister's Fine Abjuration"
+  - "Mormyshka's Blisters"
+  - "Protection from Cramps"
+  - "Retawesorkram's Tricky Surprise"
+  - "Reynard's Iron Stove"
+  - "Summon Greater Lawyer"
+  - "Summon Lesser Lawyer"
+  - "Transmute CMYK to RGB"
+places: 
+  - "Crater of Yellow Horror"
+  - "Crypt of Murac's Beholders"
+  - "Den of Blue Chaos"
+  - "Hiding Place of Sidina's Creeps"
+  - "Lands of White Dread"
+  - "Mountain of Wailing Doom"
+  - "Mox's Tunnel of Scented Blasphemy"
+  - "Temple of Clamorous Chaos"
+  - "The Beekeeper's Den"
+  - "The Chamber of Porase's Beasts"
+  - "The Keeper's Village"
+  - "The Troll's Disappointment"
+  - "Village of Gushing Alliances"
+  - "Xos's Pass"
+armors: 
+  - "mail"
+  - "plate"
+  - "suit"
+materials: 
+  - "ashwood"
+  - "balsa"
+  - "bamboo"
+  - "crystal"
+  - "diamond"
+  - "gold"
+  - "hickory"
+  - "iron"
+  - "ivory"
+  - "leather"
+  - "mithril"
+  - "oak"
+  - "plastic"
+  - "ruby"
+  - "ruby"
+  - "steel"
+  - "wool"
+weapons: 
+  - axe
+  - battle axe
+  - dagger
+  - glaive
+  - greatsword
+  - halberd
+  - katana
+  - mooring hook
+  - pea shooter
+  - pencil
+  - scimitar
+  - spear
+  - sword
+  - trident
+player_races: 
+  - man-ant
+  - giggling hyenoid
+  - out-of-focus elf
+  - flute-music-backed elf
+  - alliterative worminator
+  - dragon-trout
+  - wobblit
+  - animated broom
+  - argumentoyle
+player_professions: 
+  - arborian
+  - armchair strategist
+  - blade-thrust diplomat
+  - bungie cord wizard
+  - divinity abstractifier
+  - orator paladin
+  - professional cookie cutter
+  - rogue of Hague
+  - soccerer
+monsters: 
+  a lowland orc: !ruby/object:Monster 
+    charm: 6
+    corpse: assorted weapons
+    description: "A large green humanoid, smarter and more fierce than average goblin."
+    dexterity: 13
+    exp: 10
+    guts: 12
+    intelligence: 8
+    name: a lowland orc
+    strength: 18
+    weight: 20
+  a coffee elemental: !ruby/object:Monster 
+    charm: 10
+    corpse: an unwashed cup
+    description: Known to keep players on toes.
+    dexterity: 15
+    exp: 30
+    guts: 7
+    intelligence: 18
+    name: a coffee elemental
+    strength: 10
+    weight: 10
+  an exploding cow: !ruby/object:Monster 
+    charm: 2
+    corpse: a ticking package
+    description: Black-spotted thing of terror. Very persuasive.
+    dexterity: 12
+    exp: 40
+    guts: 10
+    intelligence: 2
+    name: an exploding cow
+    strength: 16
+    weight: 25
+  a formaldehyde elemental: !ruby/object:Monster 
+    charm: 4
+    corpse: embalming fluid component
+    description: A repugnant blue cloud.
+    dexterity: 8
+    exp: 30
+    guts: 14
+    intelligence: 0
+    name: a formaldehyde elemental
+    strength: 12
+    weight: 10
+  a potato assassin: !ruby/object:Monster 
+    charm: 17
+    corpse: a set of kitchen knifes
+    description: No spud feels safe when these people are afoot.
+    dexterity: 22
+    exp: 30
+    guts: 10
+    intelligence: 19
+    name: a potato assassin
+    strength: 10
+    weight: 20
+  a nasty forum troll: !ruby/object:Monster 
+    charm: 4
+    corpse: a broken reply button
+    description: "A huge, warty, green-skinned thing not blessed with intellect."
+    dexterity: 6
+    exp: 300
+    guts: 15
+    intelligence: 18
+    name: a nasty forum troll
+    strength: 5
+    weight: 30
+  a zombie-summoning shaman: !ruby/object:Monster 
+    charm: 16
+    corpse: a painted rattler and a whole bunch of twice-killed pieces
+    description: This person seems to do some voodoo stuff to summon a lot of zombies.
+    dexterity: 12
+    exp: 180
+    guts: 6
+    intelligence: 17
+    name: a zombie-summoning shaman
+    strength: 10
+    weight: 30
+  a goblin: !ruby/object:Monster 
+    charm: 1
+    corpse: newbieishly severed goblin head
+    description: These things infest many a first floor of newbie dungeons.
+    dexterity: 10
+    exp: 1
+    guts: 4
+    intelligence: 1
+    name: a goblin
+    strength: 6
+    weight: 8
+  a white-hatted kangaroo: !ruby/object:Monster 
+    charm: 6
+    corpse: a pouched sombrero
+    description: Nobody knows what these things do. They look mysterious.
+    dexterity: 12
+    exp: 30
+    guts: 14
+    intelligence: 12
+    name: a white-hatted kangaroo
+    strength: 16
+    weight: 30
+  a vampire without a speech impediment: !ruby/object:Monster 
+    charm: 18
+    corpse: shortened vampire fangs
+    description: A rare creature that seems to suffer from not having enough blood.
+    dexterity: 12
+    exp: 120
+    guts: 10
+    intelligence: 12
+    name: a vampire without a speech impediment
+    strength: 10
+    weight: 5
+  an enchanted Wartburg: !ruby/object:Monster 
+    charm: 2
+    corpse: a possessed gearbox
+    description: "A four-wheeled, self-moving cart, with words 'pickled cucumbers' emblazoned on its side, and a nasty look on its 'face'."
+    dexterity: 6
+    exp: 200
+    guts: 14
+    intelligence: 7
+    name: an enchanted Wartburg
+    strength: 18
+    weight: 200
+  a scrap metal golem: !ruby/object:Monster 
+    charm: 0
+    corpse: a collection of forgotten faucets
+    description: A mysterious creature with a trashcan head and arms of drain pipe.
+    dexterity: 4
+    exp: 100
+    guts: 18
+    intelligence: 0
+    name: a scrap metal golem
+    strength: 20
+    weight: 100
+  a zombie: !ruby/object:Monster 
+    charm: 0
+    corpse: twice-killed pieces
+    description: "This former person seems to wander about, looking for brains."
+    dexterity: 3
+    exp: 80
+    guts: 8
+    intelligence: 0
+    name: a zombie
+    strength: 15
+    weight: 10
+  a vampire without a noticeable accent: !ruby/object:Monster 
+    charm: 19
+    corpse: a well-thumbed dictionary
+    description: A creature of night that clearly seems to have no noble lineage whatsoever.
+    dexterity: 12
+    exp: 200
+    guts: 10
+    intelligence: 14
+    name: a vampire without a noticeable accent
+    strength: 10
+    weight: 5
+  a group of smelly critters: !ruby/object:Monster 
+    charm: 2
+    corpse: pungent hides
+    description: "While lacking in strength, their strength lies in sheer numbers and their persuasive smell."
+    dexterity: 18
+    exp: 130
+    guts: 10
+    intelligence: 7
+    name: a group of smelly critters
+    strength: 13
+    weight: 30
 
