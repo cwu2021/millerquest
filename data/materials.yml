@@ -1,0 +1,54 @@
+wool:
+  bonus: -1
+rust:
+  bonus: 0
+leather:
+  bonus: 1
+balsa:
+  bonus: 1
+  weak:
+    Fire: 4
+bamboo:
+  bonus: 2
+  weak:
+    Fire: 2
+studded leather:
+  bonus: 4
+plastic:
+  bonus: 3
+  weak:
+    Fire: 1
+ashwood:
+  bonus: 4
+  weak:
+    Fire: 1
+hickory:
+  bonus: 3
+  weak:
+    Fire: 1
+oak:
+  bonus: 3
+  weak:
+    Fire: 1
+ivory:
+  bonus: 5
+ruby:
+  bonus: 6
+iron:
+  bonus: 8
+steel:
+  bonus: 9
+crystal:
+  bonus: 10
+gold:
+  bonus: 8
+  magic: 3
+titanium:
+  bonus: 12
+mithril:
+  bonus: 14
+  magic: 2
+diamond:
+  bonus: 18
+adamantite:
+  bonus: 20

@@ -1,0 +1,30 @@
+twig:
+  bonus: -1
+pencil:
+  bonus: 0
+mooring hook:
+  bonus: 1
+pea shooter:
+  bonus: 2
+spear:
+  bonus: 5
+dagger:
+  bonus: 5
+katana:
+  bonus: 8
+scimitar:
+  bonus: 8
+long sword:
+  bonus: 9
+glaive:
+  bonus: 10
+axe:
+  bonus: 8
+halberd:
+  bonus: 10
+trident:
+  bonus: 10
+battle axe:
+  bonus: 14
+greatsword:
+  bonus: 14

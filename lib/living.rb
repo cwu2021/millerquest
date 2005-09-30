@@ -101,6 +101,7 @@ class Player < LivingThing
     spell = MemorizedSpell.new_random
     @spells[spell.name] = spell
 
+    self.gold = 200 + (rand(100)-50)
     self.re_equip
     self.add_hitdie(1)
     self.heal
@@ -132,6 +133,7 @@ class Player < LivingThing
     print_stats
     puts "  Level #{level}, XP #{@exp}, #{to_next_level} to the next level"
     puts "  HP: #{@hp}/#{@maxhp}"
+    puts "  Gold: #{gold}"
     print_line
     print_spells
     print_line
@@ -182,8 +184,10 @@ class Player < LivingThing
   end
 
   def re_equip
-    self.weapon = Weapon.new_random_of_level(self.level)
-    self.armor = Armor.new_random_of_level(self.level)
+    self.weapon = Weapon.find_good_for_cost(self.gold/2,$weapons)
+    self.gold = self.gold - self.weapon.cost
+    self.armor = Armor.find_good_for_cost(self.gold,$armors)
+    self.gold = self.gold - self.armor.cost
   end
 
   def addxp(amt)

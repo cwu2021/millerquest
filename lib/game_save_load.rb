@@ -1,3 +1,4 @@
+# $Id$
 
 def new_game
   $player = Player.new
@@ -24,17 +25,13 @@ def load_game_data
   $spells = YAML::load(File.open("#{$datadir}/spells.yml"))
   $places = YAML::load(File.open("#{$datadir}/places.yml"))
 
-  dmg = YAML::load(File.open("#{$datadir}/damagetypes.yml"))
-  dmg.keys.each do |k|
-    bonuses = dmg[k]
-    $damagetypes[k] = DamageType.new(k,bonuses)
-  end
+  $damagetypes = DamageType.load("#{$datadir}/damagetypes.yml")
+  $materials = Material.load("#{$datadir}/materials.yml")
+  $weapons = Weapon.load("#{$datadir}/weapons.yml")
+  $armors = Armor.load("#{$datadir}/armor.yml")
+  $items = YAML::load(File.open("#{$datadir}/items.yml"))
 
-  e = YAML::load(File.open("#{$datadir}/equipment.yml"))
-  $items = e['items']
-  $weapons = e['weapons']
-  $materials = e['materials']
-  $armors = e['armors']
+  # debug_dump_loaded_data
 
 end
 

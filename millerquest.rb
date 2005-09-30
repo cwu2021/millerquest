@@ -94,9 +94,9 @@ begin
       end
       # Get new equipment
       progress("Getting some new equipment while we're at it",20)
+      cost = $player.gold
       $player.re_equip
-      cost = (rand($player.gold)/3).to_i
-      $player.gold = $player.gold - cost
+      cost = cost - $player.gold
       puts("Got a #{$player.weapon} and a #{$player.armor} for #{cost} gp!")
       # A quest?
       if $player.quests_completed.length <= 10 and rand(10) < 5

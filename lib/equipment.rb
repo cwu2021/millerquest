@@ -1,40 +1,68 @@
 # $Id$
 
 class Equipment
+  attr_accessor :name
   attr_accessor :material
-  attr_accessor :type
+  attr_accessor :element
   attr_accessor :bonus
   def to_s
-    "#{material} #{type} "+sprintf("%+1d",bonus)
+    "#{element.downcase} #{material.downcase} #{name.downcase} "+
+      sprintf("%+1d",bonus)
   end
-end
 
-def bogus_level_eq(n,ary)
-  l = ((n / 100)*ary.length).to_i
-  if l < 0
-    l = 0
-  elsif l > ary.length
-    l = ary.length
+  def cost
+    c = (@material.nil? ? 0 : $materials[@material].cost) + (@bonus * 20)
+    return (c < 0 ? 0 : c)
   end
-  return l
+
+  def initialize(name, bonus)
+    @name = name
+    @bonus = bonus
+  end
+
+  private
+  def Equipment.do_load(filename,type)
+    e = YAML::load(File.open(filename))
+    eq = {}
+    e.keys.each do |k|
+      eq[k] = type.new(k,e[k]['bonus'])
+    end
+    return eq
+  end
+
+  private
+  def Equipment.find_good_for_cost(cost,choices)
+    # Pick a random base item that isn't too expensive
+    c = cost
+    type = nil
+    while type.nil? or choices[type].cost > c
+      type = choices.keys.random_item
+    end
+    eq = choices[type].dup
+    c = c - eq.cost
+
+    # Pick a random material that isn't too expensive
+    type = nil
+    while type.nil? or $materials[type].cost > c
+      type = $materials.keys.random_item
+    end
+    eq.material = type
+    eq.element = $damagetypes.keys.random_item
+
+    return eq
+  end
 end
 
 class Weapon < Equipment
-  def Weapon.new_random_of_level(n)
-    i = Weapon.new
-    i.material = $materials[bogus_level_eq(n,$materials)]
-    i.type = $weapons[bogus_level_eq(n,$weapons)]
-    i.bonus = (n/3-2+rand(3)).to_i
-    return i
+  public
+  def Weapon.load(filename)
+    Equipment.do_load(filename,Weapon)
   end
 end
 
 class Armor < Equipment
-  def Armor.new_random_of_level(n)
-    i = Armor.new
-    i.material = $materials[bogus_level_eq(n,$materials)]
-    i.type = $armors[bogus_level_eq(n,$armors)]
-    i.bonus = (n/3-2+rand(3)).to_i
-    return i
+  public
+  def Armor.load(filename)
+    Equipment.do_load(filename,Armor)
   end
 end
