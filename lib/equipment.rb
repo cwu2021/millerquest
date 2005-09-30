@@ -1,3 +1,5 @@
+# $Id$
+
 class Equipment
   attr_accessor :material
   attr_accessor :type

@@ -23,11 +23,19 @@ def load_game_data
 
   $spells = YAML::load(File.open("#{$datadir}/spells.yml"))
   $places = YAML::load(File.open("#{$datadir}/places.yml"))
+
+  dmg = YAML::load(File.open("#{$datadir}/damagetypes.yml"))
+  dmg.keys.each do |k|
+    bonuses = dmg[k]
+    $damagetypes[k] = DamageType.new(k,bonuses)
+  end
+
   e = YAML::load(File.open("#{$datadir}/equipment.yml"))
   $items = e['items']
   $weapons = e['weapons']
   $materials = e['materials']
   $armors = e['armors']
+
 end
 
 def load_game(filename)

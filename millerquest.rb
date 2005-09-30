@@ -29,9 +29,11 @@ require "#{$libdir}/debug_tools.rb"
 require "#{$libdir}/living.rb"
 require "#{$libdir}/quest.rb"
 require "#{$libdir}/spells.rb"
+require "#{$libdir}/typesandprops.rb"
 require "#{$libdir}/equipment.rb"
 require "#{$libdir}/io_help.rb"
 require "#{$libdir}/progress.rb"
+
 
 #######################################################################
 # Main program

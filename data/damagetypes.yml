@@ -1,0 +1,36 @@
+Holy:
+  Evil: 2
+  Fire: 1
+  Earth: 1
+  Water: 1
+  Air: 1
+  Ice: 1
+  Electricity: 1
+Evil:
+  Holy: 2
+  Fire: 1
+  Earth: 1
+  Water: 1
+  Air: 1
+  Ice: 1
+  Electricity: 1
+Fire:
+  Ice: 2
+  Water: 1
+Earth:
+  Water: 1
+  Fire: 1
+Water:
+  Fire: 2
+  Ice: 1
+Air:
+  Fire: 2
+  Earth:
+Ice:
+  Water: 2
+  Earth: 1
+  Fire: 1
+Electricity:
+  Earth:
+  Air: -1
+  Water: 2
