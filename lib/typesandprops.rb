@@ -72,7 +72,7 @@ class Material
   end
 
   def cost
-    c = (@bonus * 5) + (@magicbonus * 20) - (number_of_weaknesses * 10)
+    c = (@bonus * 5) + (@magicbonus * 25) - (number_of_weaknesses * 10)
     return (c <= 0 ? 0 : c)
   end
 

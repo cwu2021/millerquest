@@ -17,6 +17,7 @@ class LivingThing
       end
       @maxhp = @maxhp + rand(guts) + 1
     end
+    heal
   end
 end
 
@@ -104,7 +105,6 @@ class Player < LivingThing
     self.gold = 200 + (rand(100)-50)
     self.re_equip
     self.add_hitdie(1)
-    self.heal
   end
 
   def level
@@ -184,6 +184,10 @@ class Player < LivingThing
   end
 
   def re_equip
+    g = self.gold
+    self.gold = self.gold + (self.weapon.cost + self.armor.cost) * 0.8
+    g = self.gold - g
+    puts "Got #{g} gold for selling equipment"
     self.weapon = Weapon.find_good_for_cost(self.gold/2,$weapons)
     self.gold = self.gold - self.weapon.cost
     self.armor = Armor.find_good_for_cost(self.gold,$armors)
