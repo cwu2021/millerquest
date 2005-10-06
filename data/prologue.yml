@@ -1,0 +1,14 @@
+
+- !ruby/object:PlotTask
+  title: "You - the lowly peasant miller - have incredible visions"
+  length_of_progress: 20
+- !ruby/object:PlotTask
+  title: "The local priest explains the significance of these things"
+  length_of_progress: 40
+- !ruby/object:PlotTask
+  title: "You sell the farm and dust off the family heirloom sword"
+  length_of_progress: 30
+- !ruby/object:PlotTask
+  title: "You head to the town to fullfill the prophecy and vanquish the evil"
+  length_of_progress: 30
+

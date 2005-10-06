@@ -185,7 +185,12 @@ class Player < LivingThing
 
   def re_equip
     g = self.gold
-    self.gold = self.gold + (self.weapon.cost + self.armor.cost) * 0.8
+    if not self.weapon.nil?
+      self.gold = self.gold + self.weapon.resale_value
+    end 
+    if not self.armor.nil?
+      self.gold = self.gold + self.armor.resale_value
+    end 
     g = self.gold - g
     puts "Got #{g} gold for selling equipment"
     self.weapon = Weapon.find_good_for_cost(self.gold/2,$weapons)

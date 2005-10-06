@@ -15,6 +15,10 @@ class Equipment
     return (c < 0 ? 0 : c)
   end
 
+  def resale_value
+    return cost * 0.8
+  end
+
   def initialize(name, bonus)
     @name = name
     @bonus = bonus

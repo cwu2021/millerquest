@@ -33,7 +33,9 @@ require "#{$libdir}/typesandprops.rb"
 require "#{$libdir}/equipment.rb"
 require "#{$libdir}/io_help.rb"
 require "#{$libdir}/progress.rb"
-
+require "#{$libdir}/task.rb"
+require "#{$libdir}/task_plot.rb"
+require "#{$libdir}/task_towne.rb"
 
 #######################################################################
 # Main program
@@ -69,11 +71,7 @@ begin
   while(true)
     if $player.location == 'prologue'
       titlebar("PROLOGUE",'*')
-      progress("You - the lowly peasant miller - have incredible visions",20)
-      progress("The local priest explains the significance of these things",40)
-      progress("You sell the farm and dust off the family heirloom sword",30)
-      progress("You head to the town to fullfill the prophecy and vanquish"+
-	       " the evil",30)
+      show_prologue
       titlebar("CHAPTER 1",'*')
       $player.location = 'town'
       save_game($filename)

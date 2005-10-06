@@ -1,0 +1,7 @@
+<i>Miller's quest</i> documentation
+
+This is the rdoc-generated documentation for <i>Miller's quest</i>.
+
+Hopefully, this will be informative. At least some things in it are...
+
+
