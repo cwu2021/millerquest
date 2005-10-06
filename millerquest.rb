@@ -32,10 +32,11 @@ require "#{$libdir}/spells.rb"
 require "#{$libdir}/typesandprops.rb"
 require "#{$libdir}/equipment.rb"
 require "#{$libdir}/io_help.rb"
-require "#{$libdir}/progress.rb"
 require "#{$libdir}/task.rb"
 require "#{$libdir}/task_plot.rb"
 require "#{$libdir}/task_towne.rb"
+require "#{$libdir}/task_fight.rb"
+require "#{$libdir}/adventure.rb"
 
 #######################################################################
 # Main program
@@ -70,78 +71,16 @@ end
 begin
   while(true)
     if $player.location == 'prologue'
-      titlebar("PROLOGUE",'*')
-      show_prologue
-      titlebar("CHAPTER 1",'*')
-      $player.location = 'town'
-      save_game($filename)
+      Adventure.prologue
     elsif $player.location == 'town' 
-      # Sell possessions
-      while $player.possessions.length > 0
-	p = $player.possessions.pop
-	case rand(5)
-	when 2 then sellverb = 'Getting a good price for'
-	when 3 then sellverb = 'Mercilessly haggling up the price of'
-	when 4 then sellverb = 'Trying to get a good price for'
-	else sellverb = 'Selling'
-	end
-	progress("#{sellverb} #{p.corpse}",5)
-	newgold = rand(p.weight * 2 + 1)
-	puts "Got #{newgold} gp for that"
-	$player.gold = $player.gold + newgold
-      end
-      # Get new equipment
-      progress("Getting some new equipment while we're at it",20)
-      cost = $player.gold
-      $player.re_equip
-      cost = cost - $player.gold
-      puts("Got a #{$player.weapon} and a #{$player.armor} for #{cost} gp!")
-      # A quest?
-      if $player.quests_completed.length <= 10 and rand(10) < 5
-	if $player.quests_completed.length > 0
-	  lastquest = $player.quests_completed.last
-	  puts "You have completed the quest to #{lastquest.description}!"
-	end
-	quest = Quest.new
-	$player.quests_completed.push(quest)
-	puts "You have a new quest: #{quest.description}!"
-      elsif $player.quests_completed.length > 10 and rand(10) < 2
-	$player.quests_completed = []
-	$player.chapter = $player.chapter + 1
-	puts "You have completed all quests in this chapter!"
-	titlebar("CHAPTER #{$player.chapter}",'*')	
-      end
-
-      # Head to the fields
-      case rand(3)
-      when 0 then progress("Heading to the nearby bushes",10)
-      when 1 then progress("The bloody fields do call you!",20)
-      when 2 then progress("Taking a few steps out of town to find monsters",5)
-      end
-      $player.location = 'killingfields'
-      save_game($filename)
+      Adventure.sell_possessions
+      Adventure.get_new_equipment
+      Adventure.get_new_quest
+      Adventure.travel_to_killing_fields
     elsif $player.location == 'killingfields'
-      while not $player.carrying_too_much?
-	if $player.current_enemy.nil?
-	  monster = $monsters.random_key
-	  $player.current_enemy = $monsters[monster].dup
-	  $player.current_enemy.prepare_for_battle
-	else
-	  monster = $player.current_enemy.name
-	end
-	progress("Killing #{monster}",40)
-	drop = $player.current_enemy
-	$player.current_enemy = nil
-	$player.addxp(drop.exp)
-	puts "Got #{drop.exp} exp. #{$player.to_next_level} to next level."
-	$player.possessions.push(drop)
-	puts "Currently carrying " +
-	  "#{$player.loot_weight}/#{$player.carrying_capacity}"
-      end
-      progress("Dragging monster carcasses to the town",20)
-      $player.location = 'town'
+      Adventure.kill_monsters
+      Adventure.travel_to_town
     end
-    
   end
 rescue Interrupt
   puts

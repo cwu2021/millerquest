@@ -1,4 +1,18 @@
 
+class Trinket
+  attr_accessor :name
+  attr_accessor :weight
+  attr_accessor :cost
+  def initialize(name,weight,cost)
+    @name = name
+    @weight = weight
+    @cost = cost
+  end
+  def to_s
+    return @name
+  end
+end
+
 class LivingThing
   attr_accessor :name
   attr_accessor :strength, :dexterity, :guts, :intelligence, :charm
@@ -22,10 +36,18 @@ class LivingThing
 end
 
 class Monster < LivingThing
-  attr_accessor :exp, :corpse, :weight, :hitdie
+  attr_accessor :exp, :corpse, :weight, :hitdie, :weapon, :armor
+  # Makes sure the monster is fit to fight the player.
   def prepare_for_battle
     add_hitdie(@hitdie)
     heal
+  end
+  # Get all of the nice stuff you get when you kill a monster. Returns an Array of Trinket.
+  def loot
+    # The monster's corpse
+    loot = [ Trinket.new(@corpse,@weight,@weight*2+1) ]
+    # TODO: Add other random trinket to the list, like how rats usually carry gold and stuff.
+    return loot
   end
 end
 
@@ -44,7 +66,7 @@ class Player < LivingThing
   attr_accessor :gold, :chapter, :quests_completed
   attr_accessor :location
 
-  attr_accessor :current_progress, :current_enemy
+  attr_accessor :current_task
 
   def initialize
     @gold = 0
@@ -158,7 +180,7 @@ class Player < LivingThing
     end
   end
   def print_possessions
-    knap = self.possessions.collect {|i| i.corpse}
+    knap = self.possessions.collect {|i| i.name}
     kit = {}
     knap.each do |k|
       if kit.has_key?(k)

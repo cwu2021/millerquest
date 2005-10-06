@@ -26,8 +26,9 @@ class Equipment
 
   def total_bonus
     m = $materials[@material]
-    b = bonus + m.bonus
-    if not m.magicbonus.nil?
+    b = bonus + (m.nil? ? 0 : m.bonus)
+    # Triple negatives, sorry
+    unless (not m.respond_to?(:magicbonus)) or (not m.magicbonus.nil?)
       b = b + m.magicbonus
     end
     return b

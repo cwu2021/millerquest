@@ -1,11 +1,13 @@
+# $Id$
 # The generic classes that represent various tasks that the player does.
 # These things track the player's progress in the task, and can be saved.
-
 
 # How long should we wait between updates? (in seconds)
 GAME_SPEED = 0.2
 
 # The generic class that describes various tasks found in the game.
+# Subclass can also define method "finished" if it wants something done
+# when the task is done.
 class Task
   # The title of the current task.
   attr :title
@@ -93,6 +95,9 @@ class Task
     while advance_task and not complete? do
     end
     print_end
+    if self.respond_to? :finished
+      self.finished
+    end
   end
   
 end
