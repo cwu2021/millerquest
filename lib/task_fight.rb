@@ -81,6 +81,32 @@ class FightTask < Task
       $stdout.flush
     end
 
+    # Prints out a message on a successful hit.
+    # FIXME: Should load all of the hit messages from from YAML
+    def hit_message(critical)
+      if @attack_turn == :player
+        case rand(2)
+          when 0 then
+            msg = " <slash!> "
+          when 1 then
+            msg = " <slice!> "
+        end
+      else
+        case rand(2)
+          when 0 then
+            msg = " <ouch!> "
+          when 1 then
+            msg = " <argh!> "
+        end
+      end
+      # FIXME: more creative critical hit messages
+      if critical
+        msg.upcase!
+      end
+      print msg
+      $stdout.flush
+    end
+
     # Prints out some random stuff on death.
     # FIXME: Should load all of the screams from from YAML
     def death_scream
@@ -162,11 +188,11 @@ class FightTask < Task
         when :miss then
           shady_dots
         when :hit then
-          print " <slash!> "
+          hit_message(false)
           $stdout.flush
           shady_dots 
         when :critical then
-          print " <CRITICAL HIT!> "
+          hit_message(true)
           $stdout.flush
           shady_dots
         when :fatal then
@@ -180,6 +206,13 @@ class FightTask < Task
           result = false
       end
       $stdout.flush
+      if not @complete
+        if @attack_turn == :player
+          @attack_turn = :monster
+        else
+          @attack_turn = :player
+        end
+      end
       return result
     end
     
