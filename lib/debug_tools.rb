@@ -1,4 +1,6 @@
 
+# This should be called after loading the data. Will print out all loaded data
+# and exit.
 def debug_dump_loaded_data
   puts $title_screen
   puts $monsters.inspect

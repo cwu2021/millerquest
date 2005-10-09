@@ -1,5 +1,4 @@
 # $Id$
-
 # Some extensions to the base Array and Hash classes.
 # Note: These things are howwible hacks.
 

@@ -3,20 +3,21 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Miller's Quest! - Player's Guide</title>
-<style type="text/css">
-body {
-}
-#copyright {
-	font-size: smaller;
-	text-align: right;
-}
-#scm {
-	font-size: smaller;
-	font-style: italic;
-	text-align: right;
-}
-</style>
+	<title>Miller's Quest! - Player's Guide</title>
+	<style type="text/css">
+		body {
+			font: serif;
+		}
+		#copyright {
+			font-size: smaller;
+			text-align: right;
+		}
+		#scm {
+			font-size: smaller;
+			font-style: italic;
+			text-align: right;
+		}
+	</style>
 </head>
 <body>
 
@@ -24,78 +25,86 @@ body {
 
 <p id="copyright">Copyright &copy; 2005 Urpo 'WWWWolf' Lankinen.</p>
 
+<p>For version history, see the <a href="changelog.html">changelog</a>.</p>
+
 <h2>Story</h2>
 
-<p>You are an ordinary miller, from a good well-doing family with centuries of
-farmin experience. All your life, you have dreamed of nothing but keeping your
-farm prosperous, and your mill grinding.</p>
+<p>You are an ordinary miller, from a good well-doing family with
+centuries of farmin experience. All your life, you have dreamed of
+nothing but keeping your farm prosperous, and your mill grinding.</p>
 
-<p>But last night, you had this terrifying premonition in your dream. You were so
-shaken in the morning that you went to see the local priest who was just as scared
-as you were. He explained that a really great evil is stirring in its lair,
-somewhere deep in the Dark Lands, and legends tell that nothing stands in its way
-unless the citizens defend what is theirs. Those touched by this premonition must
-at once begin practicing for the ultimate confrontation with the evil one itself!</p>
+<p>But last night, you had this terrifying premonition in your dream.
+You were so shaken in the morning that you went to see the local priest
+who was just as scared as you were. He explained that a really great
+evil is stirring in its lair, somewhere deep in the Dark Lands, and
+legends tell that nothing stands in its way unless the citizens defend
+what is theirs. Those touched by this premonition must at once begin
+practicing for the ultimate confrontation with the evil one itself!</p>
 
-<p>So without further ado, you head back to your farmhouse, find the family heirloom
-sword from grandgrandfather's travel chest (now at least you know why you inherited it!) 
-and sell the farmhouse to get some cash. You certainly feel that the Evul One is quaking
-in its boots once you get through with him! But first of all, you need to become the
-greatest fighter this world has ever seen - and to do that, you need practice, lots and
-lots of practice...</p>
+<p>So without further ado, you head back to your farmhouse, find the
+family heirloom sword from grandgrandfather's travel chest (now at least
+you know why you inherited it!) and sell the farmhouse to get some cash.
+You certainly feel that the Evul One is quaking in its boots once you
+get through with him! But first of all, you need to become the greatest
+fighter this world has ever seen - and to do that, you need practice,
+lots and lots of practice...</p>
 
 <h2>New player primer</h2>
 
-<p>Miller's Quest is a game of adventure and intrigue, and unless you can prevent it,
-a game of death. But mostly intrigue, because there isn't a great deal that the player
-can do. The point of the game is quite simple: You should leave the milling to the pros.
-And these days, nothing does number-milling better than computers!</p>
+<p>Miller's Quest is a game of adventure and intrigue, and unless you
+can prevent it, a game of death. But mostly intrigue, because there
+isn't a great deal that the player can do. The point of the game is
+quite simple: You should leave the milling to the pros. And these days,
+nothing does number-milling better than computers!</p>
 
 <h3>Installation</h3>
 
 <p>The installation should be fairly straightforward.</p>
 
-<p>You need to install Ruby first - I'm convinced it works in Ruby 1.8.3, not sure
-about any other versions.</p>
+<p>You need to install Ruby first - I'm convinced it works in Ruby
+1.8.3, not sure about any other versions.</p>
 
 <p>Then, you just need to put the <tt>millerquest</tt> folder somewhere.
-The game can be run with <tt>ruby millerquest.rb</tt>, or, if you want to
-open a saved game automatically, <tt>ruby millerquest.rb <i>savefile</i></tt>.</p>
+The game can be run with <tt>ruby millerquest.rb</tt>, or, if you want
+to open a saved game automatically,
+<tt>ruby millerquest.rb <i>savefile</i></tt>.</p>
 
-<p>On *NIX platforms, the thing is built so that the folder can be kept anywhere
-(say, <tt>/usr/local/lib/millerquest</tt>) and you can make a symbolic link to
-it anywhere (say, <tt>/usr/local/games/millerquest</tt> or something). The game will
-look for data and library files from the same directory the actual millerquest.rb file
-is installed to.</p>
+<p>On *NIX platforms, the thing is built so that the folder can be kept
+anywhere (say, <tt>/usr/local/lib/millerquest</tt>) and you can make a
+symbolic link to it anywhere (say, <tt>/usr/local/games/millerquest</tt>
+or something). The game will look for data and library files from the
+same directory the actual millerquest.rb file is installed to.</p>
 
 <h3>Playing</h3>
 
-<p>When you start the game without savegame file name, you're shown the main menu.
-You can load the saved game here as well, or start a new game.</p>
+<p>When you start the game without savegame file name, you're shown the
+main menu. You can load the saved game here as well, or start a new
+game.</p>
 
-<p>The only interactive feature in the game is the character creation. You're asked
-for character name and gender. You're allowed to pick your class and race.
-Rolling for statistics is easy: You can either accept the values, reroll, or use
-the Munchkin option, which will raise all sub-10 stats to 10.</p>
+<p>The only interactive feature in the game is the character creation.
+You're asked for character name and gender. You're allowed to pick your
+class and race. Rolling for statistics is easy: You can either accept
+the values, reroll, or use the Munchkin option, which will raise all
+sub-10 stats to 10.</p>
 
-<p>The game will be saved automatically when needed. To quit the game nicely,
-hit Ctrl+C, and the game is automatically saved in this situation too.
-(Game crashes due to bug, and any heavier than Ctrl-C close-down tools,
-will lead to the game not being saved.)</p>
+<p>The game will be saved automatically when needed. To quit the game
+nicely, hit Ctrl+C, and the game is automatically saved in this
+situation too. (Game crashes due to bug, and any heavier than Ctrl-C
+close-down tools, will lead to the game not being saved.)</p>
 
 <h2>Hacking</h2>
 
-<p>As hinted earlier, the game is written in Ruby programming language - source
-is included, since this is a scripting language. All game data, including save games
-are stored in YAML format, which is a plain text format, so editing save games
-and the game data should be fairly easy. If you want the developer documentation
-for the game, you can just use command <tt>rake rdoc</tt> to generate it (needs
-rake and rdoc, of course...)</p>
+<p>As hinted earlier, the game is written in Ruby programming language -
+source is included, since this is a scripting language. All game data,
+including save games are stored in YAML format, which is a plain text
+format, so editing save games and the game data should be fairly easy.
+If you want the developer documentation for the game, you can just use
+command <tt>rake rdoc</tt> to generate it (needs rake and rdoc, of
+course...) Too bad the documentation isn't very good right now though,
+you'd better just read the source.</p>
 
-<hr/>
-<p id="scm">
-$Id$
-</p>
+<hr />
+<p id="scm">$Id$</p>
 
 </body>
 </html>

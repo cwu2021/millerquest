@@ -1,5 +1,7 @@
 # $Id$
 
+# A generic class for equipment in general, something that can be
+# carried and such and used to defend or attack.
 class Equipment
   attr_accessor :name
   attr_accessor :material
@@ -44,7 +46,6 @@ class Equipment
     return eq
   end
 
-  private
   def Equipment.find_good_for_cost(cost,choices)
     bons = ((cost / 2-rand(cost/3))/25).to_i
     if bons < 0
