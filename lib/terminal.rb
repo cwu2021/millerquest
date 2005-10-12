@@ -9,6 +9,7 @@
 class Display
   attr_reader :clear_attributes
   attr_reader :erase_line
+  attr_reader :erase_char
   attr_reader :bold
   attr_reader :color_codes
 
@@ -21,6 +22,8 @@ class Display
         @@color_codes = {}
         @@color_codes[:foreground] = {}
         @@color_codes[:background] = {}
+        # These work at least for ANSIlike terminals, not sure about
+        # the rest...
         @@color_codes[:foreground][:black] = `tput setaf 0`
         @@color_codes[:foreground][:red] = `tput setaf 1`
         @@color_codes[:foreground][:green] = `tput setaf 2`
@@ -37,6 +40,31 @@ class Display
         @@color_codes[:background][:magenta] = `tput setab 5`
         @@color_codes[:background][:cyan] = `tput setab 6`
         @@color_codes[:background][:white] = `tput setab 7`
+      else
+        @@clear_attributes = ''
+        @@erase_line = ''
+        @@bold = ''
+        @@color_codes = {}
+        @@color_codes[:foreground] = {}
+        @@color_codes[:background] = {}
+        # These work at least for ANSIlike terminals, not sure about
+        # the rest...
+        @@color_codes[:foreground][:black] = ''
+        @@color_codes[:foreground][:red] = ''
+        @@color_codes[:foreground][:green] = ''
+        @@color_codes[:foreground][:yellow] = ''
+        @@color_codes[:foreground][:blue] = ''
+        @@color_codes[:foreground][:magenta] = ''
+        @@color_codes[:foreground][:cyan] = ''
+        @@color_codes[:foreground][:white] = ''
+        @@color_codes[:background][:black] = ''
+        @@color_codes[:background][:red] = ''
+        @@color_codes[:background][:green] = ''
+        @@color_codes[:background][:yellow] = ''
+        @@color_codes[:background][:blue] = ''
+        @@color_codes[:background][:magenta] = ''
+        @@color_codes[:background][:cyan] = ''
+        @@color_codes[:background][:white] = ''
       end
     end
     def Display.clear_attributes
@@ -53,30 +81,3 @@ class Display
     end
 end
 
-Display.set_up
-
-# A small debug thing that uses all of the display attributes, employing
-# Display class to do all of that stuff.
-def debug_display_attributes
-  for n in 1..10 do
-    sleep 1
-    print Display.erase_line, Display.bold
-    print Display.color_codes[:foreground][:magenta]
-    print "Completed:"
-    print Display.clear_attributes
-    case n
-      when 0..3 then
-        print Display.color_codes[:foreground][:red]
-      when 4..6 then
-        print Display.color_codes[:foreground][:yellow]
-      else
-        print Display.color_codes[:foreground][:green]
-    end
-    print " #{n*10}%"
-    $stdout.flush
-  end
-  print Display.clear_attributes
-  print Display.erase_line
-  $stdout.flush
-  puts "Done!"
-end

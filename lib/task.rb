@@ -5,6 +5,25 @@
 # How long should we wait between updates? (in seconds)
 GAME_SPEED = 0.2
 
+
+# Implements the "spinning baton" progress meter.
+class Spinner
+  SPINNER_CHARACTERS = %w{ | / - \\ | / - \\ }
+  def initialize
+    # These should be static...
+    @state = 0
+  end
+  # Increments the animation and returns the current character.
+  def spin
+    @state = (@state + 1) % SPINNER_CHARACTERS.length
+    return current_value
+  end
+  # returns the currect character.
+  def current_value
+    return SPINNER_CHARACTERS[@state]
+  end
+end
+
 # The generic class that describes various tasks found in the game.
 # Subclass can also define method "finished" if it wants something done
 # when the task is done.
@@ -19,6 +38,8 @@ class Task
   attr_reader :length_of_progress
   # Should progress stuff be displayed on screen
   attr :quiet
+  # Will be spun when progressing.
+  attr_reader :spinner
 
   public
   def initialize
@@ -29,9 +50,11 @@ class Task
     @length_of_progress = 0
     @current_progress = 0
     @saveable = true
+    @spinner = Spinner.new
   end
 
   # This method should be called after the task has been deserialized.
+  # (should, when it isn't right now. too lazy. only controls printing anyway)
   def defrost
     @start_printed = false
   end
@@ -76,10 +99,15 @@ class Task
   # Go forward in the task. will return false if the task fails.
   public
   def advance_task
+    unless @spinner.nil?
+      @spinner.spin
+    end
     @current_progress = @current_progress + 1
     unless @quiet then
-      print "#"
-      $stdout.flush
+      unless @length_of_progress.nil?
+        print "#"
+        $stdout.flush
+      end
       sleep GAME_SPEED
     end
   end
@@ -101,3 +129,4 @@ class Task
   end
   
 end
+

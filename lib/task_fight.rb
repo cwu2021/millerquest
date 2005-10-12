@@ -55,27 +55,34 @@ class FightTask < Task
     # actually censor this, just never wrote bad stuff.
     # FIXME: Should load all of the screams from from YAML
     def shout_obscenities
+      ccnor = Display.clear_attributes
+      ccmsg = Display.color_codes[:foreground][:black]
+      ccwpn = Display.color_codes[:foreground][:cyan]
+      ccshoutgood = Display.bold + Display.color_codes[:foreground][:green]
+      ccshoutbad = Display.color_codes[:foreground][:red]
       if @attack_turn == :player
         # Stuff the player screams.
         # TODO: Add a "fighting style" option that allows for different fighting sounds.
+        puts "#{ccmsg}You attack the monster with your #{ccwpn}#{$player.weapon}#{ccmsg}.#{ccnor}"
         case rand(10)
           when 0 then
-            print " Hi-yah! "
+            puts "#{ccshoutgood}Hi-yah!#{ccnor}"
           when 1 then
-            print " Slice and dice! "
+            puts "#{ccshoutgood}Slice and dice!#{ccnor}"
           when 2 then
-            print " Diiiieeeeee! "
+            puts "#{ccshoutgood}Diiiieeeeee!#{ccnor}"
           when 3 then
-            print " For the Kingdom! "
+            puts "#{ccshoutgood}For the Kingdom!#{ccnor}"
         end
       elsif @attack_turn == :monster
         # Stuff the monster screams.
         # TODO: Add some flavor by adding some monster-specific screams.
+        puts "The monster tries to kill you."
         case rand(5)
           when 0 then
-            print " GRRRRRAAAGH! "
+            puts "#{ccshoutbad}GRRRRRAAAGH!#{ccnor}"
           when 1 then
-            print " DIE! "
+            puts "#{ccshoutbad}DIE!#{ccnor}"
         end      
       end
       $stdout.flush
@@ -87,30 +94,29 @@ class FightTask < Task
       if @attack_turn == :player
         case rand(2)
           when 0 then
-            msg = " <slash!> "
+            msg = "<slash!>"
           when 1 then
-            msg = " <slice!> "
+            msg = "<slice!>"
         end
       else
         case rand(2)
           when 0 then
-            msg = " <ouch!> "
+            msg = "<ouch!>"
           when 1 then
-            msg = " <argh!> "
+            msg = "<argh!>"
         end
       end
       # FIXME: more creative critical hit messages
       if critical
         msg.upcase!
       end
-      print msg
-      $stdout.flush
+      puts "#{Display.color_codes[:foreground][:red]}#{msg}#{Display.clear_attributes}"
     end
 
     # Prints out some random stuff on death.
     # FIXME: Should load all of the screams from from YAML
     def death_scream
-      print " "
+      print Display.bold + Display.color_codes[:foreground][:red]
       if @attack_turn == :player
         # Stuff the enemy screams when player kills them
         # TODO: Add more stuff
@@ -124,17 +130,20 @@ class FightTask < Task
           when 3 then
             print "<whimper>"
         end
-        print " sayeth the monster..."
+        print Display.clear_attributes + Display.color_codes[:foreground][:red]
+        puts " sayeth the monster..." + Display.clear_attributes
       elsif @attack_turn == :monster
         # Stuff the player screams when enemy kills them
         # TODO: More clever death-screams?
+        print Display.bold + Display.color_codes[:foreground][:red]
         case rand(6)
-          when 0...4 then
+          when 0..4 then
             print "ARRRRGH!!!!!!!"
           when 5 then
             print '"Me dead? That is unpossible!"'
         end      
-        print " sayeth #{$player.name}..."
+        print Display.clear_attributes + Display.color_codes[:foreground][:red]
+        puts " sayeth #{$player.name}..." + Display.clear_attributes
       end
       $stdout.flush
     end
@@ -143,9 +152,12 @@ class FightTask < Task
     # it really is.
     def shady_dots
       4.times do
-        print "#"
+        @spinner.spin
+        print @spinner.current_value
         $stdout.flush
         sleep GAME_SPEED
+        print Display.erase_line
+        $stdout.flush
       end
     end
     
@@ -176,8 +188,9 @@ class FightTask < Task
     # was fatal.
     def advance_task
       shout_obscenities
-      $stdout.flush
+
       super() # Increment counter and shit
+      
       if @attack_turn == :player
         r = resolve_attack($player,@monster)
       elsif @attack_turn == :monster
@@ -200,7 +213,7 @@ class FightTask < Task
           @complete = true
           result = false
         when :critical_fatal then
-          print " <WHA-BOOM! What a hit!> "
+          puts "<WHA-BOOM! What a hit!>"
           death_scream
           @complete = true
           result = false

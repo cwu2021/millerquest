@@ -59,25 +59,23 @@ ARGV.options do |opts|
           "Show this help message.") { puts opts; exit }
   opts.parse!
 end
-  
-require "#{$libdir}/array_ext.rb"
-require "#{$libdir}/terminal.rb"
-require "#{$libdir}/game_save_load.rb"
-require "#{$libdir}/debug_tools.rb"
-require "#{$libdir}/living.rb"
-require "#{$libdir}/quest.rb"
-require "#{$libdir}/spells.rb"
-require "#{$libdir}/typesandprops.rb"
-require "#{$libdir}/equipment.rb"
-require "#{$libdir}/io_help.rb"
-require "#{$libdir}/task.rb"
-require "#{$libdir}/task_plot.rb"
-require "#{$libdir}/task_towne.rb"
-require "#{$libdir}/task_fight.rb"
-require "#{$libdir}/adventure.rb"
+
+# Load all library files
+%w{
+  array_ext terminal debug_tools io_help
+  game_save_load 
+  living
+  damage_type material equipment spells
+  task task_plot task_towne task_fight
+  quest adventure
+}.each do |f|
+   require "#{$libdir}/#{f}.rb"
+end
 
 #######################################################################
 # Main program
+
+Display.set_up
 
 $player = nil
 
