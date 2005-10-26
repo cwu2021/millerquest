@@ -1,8 +1,31 @@
 # $Id$
-# All of the adventuring bits
+#
+# The code related to handling the adventurer's life. Basically, all of the
+# subroutines that are called from the main game loop.
+#
+# ============================================================================
+# Miller's Quest!, a role-playing game simulator.
+# Copyright (C) 2005  Urpo 'WWWWolf' Lankinen.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# ============================================================================
 
 # This module contains all of the stuff that has something to do with
-# our poor adventurer's life.
+# our poor adventurer's life. Basically, all of the subroutines that are
+# called from the main game loop.
 module Adventure
 
   # Show the prologue. The prologue lines are loaded from data/prologue.yml.
@@ -31,11 +54,9 @@ module Adventure
 
   # Re-equips the character with some brand new equipment.
   def Adventure.get_new_equipment
-    cost = $player.gold
+    m = $player.gold
     t = ReEquipTask.new
     t.complete
-    cost = cost - $player.gold
-    puts("Got a #{$player.weapon} and a #{$player.armor} for #{cost} gp!")
   end
 
   # *May* get a new quest for the character. Or, if the character has

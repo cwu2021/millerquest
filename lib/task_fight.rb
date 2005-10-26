@@ -1,5 +1,27 @@
 # $Id$
+#
 # The combat system.
+#
+# ============================================================================
+# Miller's Quest!, a role-playing game simulator.
+# Copyright (C) 2005  Urpo 'WWWWolf' Lankinen.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# ============================================================================
+
 
 # This thing will fight a nasty monster.
 class FightTask < Task
@@ -57,13 +79,14 @@ class FightTask < Task
     def shout_obscenities
       ccnor = Display.clear_attributes
       ccmsg = Display.color_codes[:foreground][:black]
+      ccmon = Display.color_codes[:foreground][:magenta]
       ccwpn = Display.color_codes[:foreground][:cyan]
       ccshoutgood = Display.bold + Display.color_codes[:foreground][:green]
       ccshoutbad = Display.color_codes[:foreground][:red]
       if @attack_turn == :player
         # Stuff the player screams.
         # TODO: Add a "fighting style" option that allows for different fighting sounds.
-        puts "#{ccmsg}You attack the monster with your #{ccwpn}#{$player.weapon}#{ccmsg}.#{ccnor}"
+        puts "#{ccmsg}You attack the #{ccmon}#{@monster.name}#{ccmsg} with your #{ccwpn}#{$player.weapon}#{ccmsg}.#{ccnor}"
         case rand(10)
           when 0 then
             puts "#{ccshoutgood}Hi-yah!#{ccnor}"
@@ -77,7 +100,7 @@ class FightTask < Task
       elsif @attack_turn == :monster
         # Stuff the monster screams.
         # TODO: Add some flavor by adding some monster-specific screams.
-        puts "The monster tries to kill you."
+        puts "#{ccmsg}The #{ccmon}#{@monster}#{ccmsg} tries to kill you with its #{ccwpn}#{@monster.weapon}#{ccmsg}.#{ccnor}"
         case rand(5)
           when 0 then
             puts "#{ccshoutbad}GRRRRRAAAGH!#{ccnor}"

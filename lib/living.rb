@@ -1,4 +1,27 @@
+# $Id$
+# Code that represents monsters, players and loot.
+#
+# ============================================================================
+# Miller's Quest!, a role-playing game simulator.
+# Copyright (C) 2005  Urpo 'WWWWolf' Lankinen.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# ============================================================================
 
+# All sorts of trinket that is sold as a loot.
 class Trinket
   attr_accessor :name
   attr_accessor :weight
@@ -13,11 +36,15 @@ class Trinket
   end
 end
 
+# Living thingies.
 class LivingThing
   attr_accessor :name
   attr_accessor :strength, :dexterity, :guts, :intelligence, :charm
   attr_accessor :hp, :maxhp
   attr_accessor :description
+  def to_s
+    @name
+  end
   def damage(points)
     @hp = @hp - points
   end
@@ -35,6 +62,7 @@ class LivingThing
   end
 end
 
+# A monster.
 class Monster < LivingThing
   attr_accessor :exp, :corpse, :weight, :hitdie, :weapon, :armor
   # Makes sure the monster is fit to fight the player.
@@ -51,6 +79,7 @@ class Monster < LivingThing
   end
 end
 
+# Player.
 class Player < LivingThing
   attr_accessor :gender
   attr_accessor :race
@@ -206,19 +235,37 @@ class Player < LivingThing
   end
 
   def re_equip
-    g = self.gold
-    if not self.weapon.nil?
-      self.gold = self.gold + self.weapon.resale_value
+    # FIXME: May be buggy.
+    puts "You now have #{@gold} gold."
+    g = @gold
+    unless @weapon.nil?
+      puts "Time to sell your old #{@weapon}, worth #{@weapon.resale_value}"
+      @gold = @gold + @weapon.resale_value
+      @weapon = nil
     end 
-    if not self.armor.nil?
-      self.gold = self.gold + self.armor.resale_value
+    unless @armor.nil?
+      puts "#{@armor} is getting rusty but is worth #{@armor.resale_value}"
+      @gold = @gold + @armor.resale_value
+      @armor = nil
     end 
-    g = self.gold - g
-    puts "Got #{g} gold for selling equipment"
-    self.weapon = Weapon.find_good_for_cost(self.gold/2,$weapons)
-    self.gold = self.gold - self.weapon.cost
-    self.armor = Armor.find_good_for_cost(self.gold,$armors)
-    self.gold = self.gold - self.armor.cost
+    puts "Got #{@gold - g} gold for selling equipment. You now have #{@gold} gold."
+    # Get a new weapon and an armor
+    neqcost = 0
+    w = Weapon.find_good_for_cost(@gold/2,$weapons)
+    if w.cost <= @gold
+      @weapon = w
+      @gold = @gold - w.cost
+      neqcost = neqcost + w.cost
+      puts "Preparing to slice baddies with a brand new #{w} that costed #{w.cost} gp"
+    end
+    a = Armor.find_good_for_cost(@gold,$armors)
+    if a.cost <= @gold
+      @armor = a
+      @gold = @gold - a.cost
+      neqcost = neqcost + a.cost
+      puts "A shiny #{a} that costed #{a.cost} gp will deflect the attacks of the evil monsters!"
+    end
+    puts "The equipment costed #{neqcost} gp. After the transaction you now have #{@gold} gold."
   end
 
   def addxp(amt)
