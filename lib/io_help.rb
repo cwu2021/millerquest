@@ -22,11 +22,12 @@
 #
 # ============================================================================
 
-
+# Prints some dashes.
 def print_line
   puts "-" * 70
 end
 
+# Prints a bunch of things, enumerated properly.
 def printlist(list)
   puts
   i = 0
@@ -37,6 +38,7 @@ def printlist(list)
   puts
 end
 
+# Prompts for a choice from a list.
 def get_option(list,prompt,errormsg)
   choice = nil
   while choice == nil
@@ -53,7 +55,7 @@ def get_option(list,prompt,errormsg)
   return choice
 end
 
-
+# Prints out a title bar.
 def titlebar(title,letter)
   xlength = 70-title.length-2-(letter.length)*3
   if xlength > 0
@@ -64,8 +66,7 @@ def titlebar(title,letter)
   puts "#{letter*3} #{title} #{restbar}"
 end
 
-
-
+# Prints out the title screen.
 def titlescreen
   puts $title_screen
 end

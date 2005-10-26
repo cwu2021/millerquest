@@ -2,6 +2,8 @@
 #
 # Saving and loading the game.
 #
+# FIXME: Some of this stuff is REALLY dumb.
+#
 # ============================================================================
 # Miller's Quest!, a role-playing game simulator.
 # Copyright (C) 2005  Urpo 'WWWWolf' Lankinen.
@@ -22,17 +24,20 @@
 #
 # ============================================================================
 
+# Start a new game.
 def new_game
   $player = Player.new
   $player.setup_for_new_game
   save_game(:interactive)
 end
 
+# Asks file name from user.
 def ask_filename
   print "Enter savegame file name: "
   return gets.chomp
 end
 
+# Load all game data from the various YAML files to the global variables.
 def load_game_data
   f = File.open("#{$datadir}/title.txt")
   $title_screen = f.readlines.join("")
@@ -57,6 +62,7 @@ def load_game_data
 
 end
 
+# Load the game.
 def load_game(filename)
   puts "Loading game."
   if filename == :interactive
@@ -70,6 +76,7 @@ def load_game(filename)
   $player.print_character_sheet
 end
 
+# Save the game.
 def save_game(filename)
   puts "Saving game."
   if filename == :interactive

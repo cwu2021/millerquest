@@ -23,6 +23,7 @@
 #
 # ============================================================================
 
+# Plain ordinary everyday Ruby array. From hell.
 class Array
   # Finds a random item from the array.
   def random_item
@@ -39,6 +40,7 @@ class Array
   end
 end
 
+# Plain ordinary run-of-the-mill Ruby hash. Designed by a lunatic.
 class Hash
   # Returns a random item from the hash.
   def random_item

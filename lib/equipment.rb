@@ -108,6 +108,7 @@ class Equipment
   end
 end
 
+# A weapon. The pointy end goes into a LivingThing, causing damage.
 class Weapon < Equipment
   public
   def Weapon.load(filename)
@@ -115,6 +116,7 @@ class Weapon < Equipment
   end
 end
 
+# An armor that is used to shield a LivingThing from Weapon use.
 class Armor < Equipment
   public
   def Armor.load(filename)
