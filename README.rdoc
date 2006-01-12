@@ -1,10 +1,13 @@
-#:title:MillersQuest develiper documentation
+#:title:MillersQuest developer documentation
 
 $Id$
 
 <i>Miller's quest</i> developer documentation
 
 This is the rdoc-generated documentation for <i>Miller's quest</i>.
+To rebuild it, use command "rake rdoc". (If you find yourself
+looking at the README.rdoc file directly, you should run that
+command and then look at the html/ directory.)
 
 The most important parts of the whole mess are as follows:
 

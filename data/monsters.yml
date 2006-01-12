@@ -79,7 +79,7 @@ a formaldehyde elemental: !ruby/object:Monster
     material: death-smell
     type: vapor
 a potato assassin: !ruby/object:Monster 
-  corpse: a set of kitchen knifes
+  corpse: a set of kitchen knives
   description: No spud feels safe when these people are afoot.
   strength: 10
   dexterity: 22
