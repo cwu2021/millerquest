@@ -31,6 +31,6 @@ Ice:
   Earth: 1
   Fire: 1
 Electricity:
-  Earth:
+  Earth: 0
   Air: -1
   Water: 2
