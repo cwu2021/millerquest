@@ -1,0 +1,4 @@
+Urpo Lankinen <wwwwolf@iki.fi>
+    Creator and principal implementor
+
+
