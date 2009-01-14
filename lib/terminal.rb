@@ -1,4 +1,4 @@
-# $Id$
+# $Id: terminal.rb 25 2005-10-26 22:14:56Z wwwwolf $
 #
 # Code related to display management.
 #
@@ -27,7 +27,7 @@
 
 
 # A crudimentary class for setting up display modes.
-class Display
+class Terminal
   attr_reader :clear_attributes
   attr_reader :erase_line
   attr_reader :erase_char
@@ -35,7 +35,7 @@ class Display
   attr_reader :color_codes
 
   public
-    def Display.set_up
+    def Terminal.set_up
       if $use_term then
         @@clear_attributes = `tput sgr0`
         @@erase_line = `tput cr` + `tput el`
@@ -88,16 +88,16 @@ class Display
         @@color_codes[:background][:white] = ''
       end
     end
-    def Display.clear_attributes
+    def Terminal.clear_attributes
       @@clear_attributes
     end
-    def Display.erase_line
+    def Terminal.erase_line
       @@erase_line
     end
-    def Display.bold
+    def Terminal.bold
       @@bold
     end
-    def Display.color_codes
+    def Terminal.color_codes
       @@color_codes
     end
 end

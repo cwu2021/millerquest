@@ -1,4 +1,4 @@
-# $Id$
+# $Id: array_ext.rb 26 2005-10-26 22:24:53Z wwwwolf $
 #
 # Some extensions to the base Array and Hash classes.
 # Note: These things are howwible hacks.

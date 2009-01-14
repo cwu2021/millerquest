@@ -1,4 +1,4 @@
-# $Id$
+# $Id: io_help.rb 26 2005-10-26 22:24:53Z wwwwolf $
 #
 # Things that help printing out stuff.
 #

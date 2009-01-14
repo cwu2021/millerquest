@@ -1,4 +1,4 @@
-# $Id$
+# $Id: game_save_load.rb 26 2005-10-26 22:24:53Z wwwwolf $
 #
 # Saving and loading the game.
 #

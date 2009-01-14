@@ -1,4 +1,4 @@
-# $Id$
+# $Id: task_towne.rb 25 2005-10-26 22:14:56Z wwwwolf $
 #
 # The tasks in towns.
 #
@@ -27,6 +27,7 @@
 class MerchantTask < PlotTask
   def initialize(title)
     super(title,5 + rand(9))
+    @quiet = true
     @saveable = false
   end
 end
@@ -53,14 +54,15 @@ class MerchantSellTask < MerchantTask
 end
 
 # Get new equipment. (Not used much yet.)
-class ReEquipTask < PlotTask
-  def initialize
-    super("Getting some new equipment while we're at it",20)
-  end
-  def finished
-    $player.re_equip
-  end
-end
+# class ReEquipTask < PlotTask
+#   def initialize
+#     super("Getting some new equipment while we're at it",20)
+#     @quiet = 1
+#   end
+#   def finished
+#     $player.re_equip
+#   end
+# end
 
 # Travel to a new location.
 class TravelTask < PlotTask
@@ -75,9 +77,11 @@ class TravelTask < PlotTask
         when 2 then @title = "Taking a few steps out of town to find monsters"
                     @length_of_progress = 5
       end
+      @quiet = 1
     elsif direction == 'town'
       @title = "Dragging monster carcasses to the town"
       @length_of_progress = 20
+      @quiet = 1
     else
       @title = "Travelling to some damn other place altogether"
       @length_of_progress = 10

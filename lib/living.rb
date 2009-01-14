@@ -1,4 +1,4 @@
-# $Id$
+# $Id: living.rb 25 2005-10-26 22:14:56Z wwwwolf $
 # Code that represents monsters, players and loot.
 #
 # ============================================================================
@@ -236,19 +236,22 @@ class Player < LivingThing
 
   def re_equip
     # FIXME: May be buggy.
-    puts "You now have #{@gold} gold."
     g = @gold
     unless @weapon.nil?
-      puts "Time to sell your old #{@weapon}, worth #{@weapon.resale_value}"
       @gold = @gold + @weapon.resale_value
+      resale_value = @weapon.resale_value
+      msg = "Your #{@weapon} is out of fashion. Time to sell it."
       @weapon = nil
+      Display.sell(msg,resale_value)
     end 
     unless @armor.nil?
-      puts "#{@armor} is getting rusty but is worth #{@armor.resale_value}"
       @gold = @gold + @armor.resale_value
+      resale_value = @armor.resale_value
+      msg = "Your #{@armor} is getting rusty. Time to sell it."
       @armor = nil
-    end 
-    puts "Got #{@gold - g} gold for selling equipment. You now have #{@gold} gold."
+      Display.sell(msg,resale_value)
+    end
+
     # Get a new weapon and an armor
     neqcost = 0
     w = Weapon.find_good_for_cost(@gold/2,$weapons)
@@ -256,16 +259,17 @@ class Player < LivingThing
       @weapon = w
       @gold = @gold - w.cost
       neqcost = neqcost + w.cost
-      puts "Preparing to slice baddies with a brand new #{w} that costed #{w.cost} gp"
+      msg = "Got my eye on that #{w}"
+      Display.buy(msg,w.cost)
     end
     a = Armor.find_good_for_cost(@gold,$armors)
     if a.cost <= @gold
       @armor = a
       @gold = @gold - a.cost
       neqcost = neqcost + a.cost
-      puts "A shiny #{a} that costed #{a.cost} gp will deflect the attacks of the evil monsters!"
+      msg = "Buying a hot new #{a}"
+      Display.buy(msg,w.cost)
     end
-    puts "The equipment costed #{neqcost} gp. After the transaction you now have #{@gold} gold."
   end
 
   def addxp(amt)
@@ -274,26 +278,26 @@ class Player < LivingThing
     @exp = @exp + amt
     if self.level > oldlevel
       for l in 1..(self.level - oldlevel)
-	puts "You gained a level!"
 	self.add_hitdie(1)
-	puts "Max HP increased to #{@maxhp}!"
+##	puts "You gained a level!"
+##	puts "Max HP increased to #{@maxhp}!"
 	# Increase one stat
 	case rand(5)
 	when 0 then 
 	  self.strength = self.strength + 1
-	  puts "Your muscles tremble with new power."
+	  msg = "Your muscles tremble with new power."
 	when 1 then
 	  self.dexterity = self.dexterity + 1
-	  puts "Your joints are nimbler."
+	  msg = "Your joints are nimbler."
 	when 2 then
 	  self.guts = self.guts + 1
-	  puts "You feel you can survive anything now." 
+	  msg = "You feel you can survive anything now." 
 	when 3 then
 	  self.intelligence = self.intelligence + 1
-	  puts "Your mind is dizzying with new possibilities." 
+	  msg = "Your mind is dizzying with new possibilities." 
 	when 4 then
 	  self.charm = self.charm + 1
-	  puts "You feel more confident and your hair looks better."
+	  msg = "You feel more confident and your hair looks better."
 	else
 	  die "Well, that was weird. Odd stat?"
 	end
@@ -302,7 +306,7 @@ class Player < LivingThing
 	  # Increase level of an existing spell
 	  oldspell = self.spells.random_key
 	  self.spells[oldspell].addlevel
-	  puts "Gained a new skill level in spell #{oldspell}."
+	  spell_msg = "Gained a new skill level in spell #{oldspell}."
 	else
 	  # A whole new spell
 	  newspell = $spells.random_item
@@ -310,8 +314,9 @@ class Player < LivingThing
 	    newspell = $spells.random_item
 	  end
 	  self.spells[newspell] = MemorizedSpell.new_named(newspell)
-	  puts "Learned a new spell #{newspell}."
+	  spell_msg = "Learned a new spell #{newspell}."
 	end
+        Display.gain_level(msg,spell_msg)
       end
     end
   end
@@ -325,4 +330,3 @@ class Player < LivingThing
   end
 
 end
-
