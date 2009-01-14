@@ -1,6 +1,6 @@
 #:title:MillersQuest develiper documentation
 
-$Id$
+$Id: README.rdoc 16 2005-10-06 22:13:01Z wwwwolf $
 
 <i>Miller's quest</i> developer documentation
 

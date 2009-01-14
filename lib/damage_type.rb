@@ -1,4 +1,4 @@
-# $Id$
+# $Id: damage_type.rb 25 2005-10-26 22:14:56Z wwwwolf $
 #
 # Damage type handling.
 #

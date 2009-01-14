@@ -1,4 +1,4 @@
-# $Id$
+# $Id: spells.rb 25 2005-10-26 22:14:56Z wwwwolf $
 # 
 # Spells.
 #

@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-# $Id$
+# $Id: millerquest.rb 25 2005-10-26 22:14:56Z wwwwolf $
 #######################################################################
 #
 # Miller's Quest!
@@ -31,6 +31,15 @@
 require 'yaml'
 require 'yaml/store'
 require 'optparse'
+
+# Check for curses or ncurses
+begin
+  require "ncurses"
+  $have_ncurses = 1
+rescue LoadError
+  require "curses"
+  $have_ncurses = 0
+end
 
 # Probe defaults and parse options here, because the user might
 # supply an alternate library location etc...
@@ -84,14 +93,13 @@ end
   damage_type material equipment spells
   task task_plot task_towne task_fight
   quest adventure
+  mqcurses
 }.each do |f|
    require "#{$libdir}/#{f}.rb"
 end
 
 #######################################################################
 # Main program
-
-Display.set_up
 
 $player = nil
 
@@ -120,6 +128,12 @@ else
   end
 end
 
+Display.set_up
+Display.show_stats
+if $player.location == 'killingfields'
+  Display.begin_fight("Continuing previous fight")
+end
+
 begin
   while(true)
     if $player.location == 'prologue'
@@ -141,4 +155,3 @@ rescue Interrupt
   $player.print_character_sheet
   save_game($filename)
 end
-
