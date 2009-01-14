@@ -1,4 +1,18 @@
-Urpo Lankinen <wwwwolf@iki.fi>
+Possibly incomplete list of people who have given code and feedback.
+If you're missing from the list, please email me. People who use git
+can add themselves directly to the list. =)
+=====================================================================
+
+Urpo Lankinen <wwwwolf AT iki DOT fi>
     Creator and principal implementor
+
+Gregory Sharp <gregsharp.geo AT yahoo DOT com>
+    Curses interface and ASCII graphics
+
+Guo xianghao <xhguo AT wedomo DOT com>
+    Bug reports and improvement suggestions
+
+Josh Triplett <?>
+    Combat fixes
 
 
