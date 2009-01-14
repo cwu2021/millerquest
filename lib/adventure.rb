@@ -1,5 +1,3 @@
-# $Id: adventure.rb 25 2005-10-26 22:14:56Z wwwwolf $
-#
 # The code related to handling the adventurer's life. Basically, all of the
 # subroutines that are called from the main game loop.
 #

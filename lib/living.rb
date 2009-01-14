@@ -1,4 +1,3 @@
-# $Id: living.rb 25 2005-10-26 22:14:56Z wwwwolf $
 # Code that represents monsters, players and loot.
 #
 # ============================================================================

@@ -1,5 +1,3 @@
-# $Id: equipment.rb 26 2005-10-26 22:24:53Z wwwwolf $
-#
 # The classes representing the equipment.
 #
 # ============================================================================

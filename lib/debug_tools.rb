@@ -1,5 +1,3 @@
-# $Id: debug_tools.rb 25 2005-10-26 22:14:56Z wwwwolf $
-#
 # Various tools to debug game behavior.
 #
 # ============================================================================

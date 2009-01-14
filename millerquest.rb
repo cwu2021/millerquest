@@ -1,5 +1,4 @@
 #!/usr/bin/ruby
-# $Id: millerquest.rb 25 2005-10-26 22:14:56Z wwwwolf $
 #######################################################################
 #
 # Miller's Quest!
@@ -31,6 +30,13 @@
 require 'yaml'
 require 'yaml/store'
 require 'optparse'
+
+# ncurses could be in rubygems. Could also be prepackaged. We don't know.
+# Doesn't hurt to try load rubygems though.
+begin
+  require "rubygems"
+rescue LoadError
+end
 
 # Check for curses or ncurses
 begin

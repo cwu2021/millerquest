@@ -1,9 +1,4 @@
-# $Id: terminal.rb 25 2005-10-26 22:14:56Z wwwwolf $
-#
 # Code related to display management.
-#
-# FIXME: All of the terminal stuff needs tput. Is there
-# a ruby module to use terminfo?
 #
 # ============================================================================
 # Miller's Quest!, a role-playing game simulator.

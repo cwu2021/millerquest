@@ -1,5 +1,3 @@
-# $Id: task.rb 25 2005-10-26 22:14:56Z wwwwolf $
-#
 # The generic classes that represent various tasks that the player does.
 # These things track the player's progress in the task, and can be saved.
 #
